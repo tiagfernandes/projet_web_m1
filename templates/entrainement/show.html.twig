@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.entrainement'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.entrainement'|trans }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>DateTimeStart</th>
+                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateTimeEnd</th>
+                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">{{ 'back.list'|trans }}</a>
+
+    <a class="btn btn-info" href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">{{ 'button.edit'|trans }}</a>
+
+{% endblock %}

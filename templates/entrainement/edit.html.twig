@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Entrainement{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.entrainement.edit'|trans }}</h1>
+
+    {{ include('entrainement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-info mt-2" href="{{ path('app_entrainement_index') }}">{{ 'back.list'|trans }}</a>
+
+{% endblock %}

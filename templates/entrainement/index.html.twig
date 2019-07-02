@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.entrainment.index'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.entrainment.index'|trans }}</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'entrainement.datetimestart.label'|trans }}</th>
+            <th>{{ 'entrainement.datetimeend.label'|trans }}</th>
+            <th>{{ 'action'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entrainement in entrainements %}
+            <tr>
+                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a class="btn btn-info"
+                       href="{{ path('app_entrainement_show', {'id': entrainement.id}) }}">{{ 'button.show'|trans }}</a>
+                    |
+                    <a class="btn btn-info"
+                       href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">{{ 'button.edit'|trans }}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">{{ 'no.entrainement.yet'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_entrainement_new') }}">{{ 'button.create'|trans }}</a>
+{% endblock %}
