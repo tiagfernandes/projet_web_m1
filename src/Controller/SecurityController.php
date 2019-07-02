@@ -22,9 +22,9 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-//        if ($this->getUser()) {
-////            return $this->redirectToRoute('app_calendar_index');
-//        }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_default_index');
+        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -35,42 +35,4 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/add")
-     * @throws \Exception
-     */
-    public function createdTireur()
-    {
-        $tireur = new Tireur();
-        $tireur->setCiv($this->getDoctrine()
-            ->getRepository(Civ::class)
-            ->find(1));
-        $tireur->setCreatedAt(new \DateTime());
-        $tireur->setDtBirthday(new \DateTime());
-        $tireur->setEmail('babla@gmail.Com');
-        $tireur->setFirstName('tireur1');
-        $tireur->setLastName('tireur1');
-        $tireur->setHandisport(false);
-        $tireur->setPhone('01');
-        $tireur->setRoles(array('ROLE_TIREUR'));
-        $tireur->setUsername('tireur');
-        $tireur->setArbitre(null);
-        $tireur->setArme($this->getDoctrine()
-            ->getRepository(Arme::class)
-            ->find(1));
-        $tireur->setMainForte('Droite');
-        $tireur->setBlason($this->getDoctrine()
-            ->getRepository(Blason::class)
-            ->find(1));
-        $tireur->setGroupe($this->getDoctrine()
-            ->getRepository(Groupe::class)
-            ->find(1));
-        $tireur->setPassword('$argon2i$v=19$m=65536,t=6,p=1$TWdLeE5hc2NyZkNOWndGVg$kiNeILgJ77AKxiEos0pg1hpBlGuWU3Pi/KB6qJYojOk');
-
-        $this->getDoctrine()->getManager()->persist($tireur);
-        $this->getDoctrine()->getManager()->flush();
-
-        dump($tireur);
-        die();
-    }
 }

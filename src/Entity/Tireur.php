@@ -67,6 +67,10 @@ class Tireur extends User
         $this->lecons = new ArrayCollection();
         $this->typeCompetitions = new ArrayCollection();
         $this->objectifs = new ArrayCollection();
+
+
+        $this->setRoles(array('ROLE_TIREUR'));
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getBlason(): ?Blason

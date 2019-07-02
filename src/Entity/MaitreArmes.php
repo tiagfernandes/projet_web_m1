@@ -21,6 +21,9 @@ class MaitreArmes extends User
     {
         parent::__construct();
         $this->lecons = new ArrayCollection();
+
+        $this->setCreatedAt(new \DateTime());
+        $this->setRoles(array('ROLE_MAITRE'));
     }
 
 

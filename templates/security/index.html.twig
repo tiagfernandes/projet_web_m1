@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SecurityController!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
     {% if error %}
@@ -12,22 +12,22 @@
         </div>
     {% endif %}
 
-    <h3>{{ 'login'|trans }}</h3>
-    <form action="{{ path('app_security_login') }}" method="post" class="form">
-        <div class="row">
-            <div class="form-group col-md-5">
-                <label for="username" class="sr-only">Identifiant</label>
-                <input type="text" class="form-control" id="username" name="_username" value="{{ lastUsername }}"
-                       placeholder="{{ 'identifiant'|trans }}"/>
+    <div class="text-center mt-5">
+        <form ction="{{ path('app_security_login') }}" method="post" class="form-signin">
+            <img class="mb-4" src="{{ asset('assets/img/logo_MVDS.PNG') }}" alt="" width="auto" height="300">
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <label for="username" class="sr-only">Email address</label>
+            <input type="text" id="username" class="form-control" placeholder="Username" value="{{ lastUsername }}"
+                   name="_username" required autofocus>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Password" name="_password" required>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
             </div>
-            <div class="form-group col-md-5">
-                <label for="password" class="sr-only">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="_password"
-                       placeholder="{{ 'mdp'|trans }}"/>
-            </div>
-            {# <input type="hidden" name="_target_path" value="/apres-login" /> #}
-            <button type="submit" class="btn btn-primary mb-3">Connexion</button>
-        </div>
-{#        <a href="{{ path('app_security_resetpassword') }}">{{ 'forget.password'|trans }}</a>#}
-    </form>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+        </form>
+    </div>
 {% endblock %}
