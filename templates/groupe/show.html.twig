@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groupe{% endblock %}
+
+{% block body %}
+    <h1>Groupe</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ groupe.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom du groupe</th>
+                <td>{{ groupe.name }}</td>
+            </tr>
+            <tr>
+                <th>Liste tireurs</th>
+                <td>{% for tireur in groupe.tireurs %}
+                    {{ tireur.firstName }} <br>
+                {% endfor %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('groupe_index') }}">back to list</a>
+
+    <a class="btn btn-primary" href="{{ path('groupe_edit', {'id': groupe.id}) }}">edit</a>
+
+{% endblock %}

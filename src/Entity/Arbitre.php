@@ -79,4 +79,11 @@ class Arbitre
 
         return $this;
     }
+
+    public function __toString()
+    {
+        $this->id = $id;
+        return $this;
+    }
+
 }

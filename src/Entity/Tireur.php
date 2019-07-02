@@ -36,7 +36,7 @@ class Tireur extends User
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Groupe", inversedBy="tireurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $groupe;
 
@@ -256,4 +256,11 @@ class Tireur extends User
 
         return $this;
     }
+
+    public function __toString()
+    {
+       
+        return $this->getFirstName();
+    }
+
 }
