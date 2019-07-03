@@ -21,7 +21,7 @@ class TypeCompetition
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Blason", inversedBy="typeCompetitions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $blason;
 
@@ -30,12 +30,6 @@ class TypeCompetition
      * @ORM\JoinColumn(nullable=false)
      */
     private $arme;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Admin", inversedBy="typeCompetitions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $createdBy;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Civ", inversedBy="typeCompetitions")
@@ -91,18 +85,6 @@ class TypeCompetition
     public function setArme(?Arme $arme): self
     {
         $this->arme = $arme;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?Admin
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?Admin $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }

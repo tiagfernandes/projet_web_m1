@@ -29,7 +29,7 @@ class Competition
     private $dateTimeEnd;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TypeCompetition", mappedBy="competition", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\TypeCompetition", mappedBy="competition", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $typeCompetitions;
 

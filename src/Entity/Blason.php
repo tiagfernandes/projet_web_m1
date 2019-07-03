@@ -117,4 +117,9 @@ class Blason
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getGrade();
+    }
 }
