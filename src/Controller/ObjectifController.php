@@ -74,12 +74,12 @@ class ObjectifController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $commentaires= $objectif->getCommentaires();
             $entityManager = $this->getDoctrine()->getManager();
             foreach($commentaires as $commentaire){
-                $comment = new Commentaire();
-                $comment->setObjectif($objectif);
-                $comment->setCommentaire($commentaire);
+
+                $commentaire->setObjectif($objectif);
                 $entityManager->persist($commentaire);
             }
 
