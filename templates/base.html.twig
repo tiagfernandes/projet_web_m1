@@ -31,6 +31,7 @@
             {% block body %}{% endblock %}
         </div>
     </main>
+
     <!-- page-content" -->
 </div>
 {% block javascripts %}
@@ -45,7 +46,6 @@
             crossorigin="anonymous"></script>
     <script>
         jQuery(function ($) {
-
             $(".sidebar-dropdown > a").click(function () {
                 $(".sidebar-submenu").slideUp(200);
                 if (
@@ -67,7 +67,6 @@
                         .addClass("active");
                 }
             });
-
             $("#close-sidebar").click(function () {
                 $(".page-wrapper").removeClass("toggled");
             });

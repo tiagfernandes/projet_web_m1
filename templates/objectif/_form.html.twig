@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+    {{ form_row(form.descriptif) }}
+    {{ form_row(form.atteint) }}
+    {{ form_row(form.tireur) }}
+    {{ form_row(form.createdBy) }}
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

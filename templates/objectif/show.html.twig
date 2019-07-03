@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Objectif{% endblock %}
+
+{% block body %}
+    <h1>Objectif</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ objectif.id }}</td>
+            </tr>
+            <tr>
+                <th>Fixé par:</th>
+                <td>{{ objectif.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>Pour le tireur:</th>
+                <td>{{ objectif.tireur }}</td>
+            </tr>
+            <tr>
+                <th>Descriptif</th>
+                <td>{{ objectif.descriptif }}</td>
+            </tr>
+            <tr>
+                <th>Atteint</th>
+                <td>{{ objectif.atteint ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Commentaire(s)</th>
+                <td> {% for commentaire in objectif.commentaires  %}
+                {{ commentaire }}<br>
+                {% endfor %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('objectif_index') }}">back to list</a>
+
+    <a class="btn btn-primary"  href="{{ path('objectif_edit', {'id': objectif.id}) }}">edit</a>
+
+{% endblock %}

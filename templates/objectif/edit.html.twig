@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Objectif{% endblock %}
+
+{% block body %}
+    <h1>Edit Objectif</h1>
+
+    {{ include('objectif/_formEdit.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-primary" href="{{ path('objectif_index') }}">back to list</a>
+
+{% endblock %}
