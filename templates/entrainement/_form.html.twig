@@ -1,4 +1,6 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-<button class="btn btn-primary">{{ 'button.save'|trans }}</button>
+    {{ form_row(form.dateTimeStart) }}
+    {{ form_row(form.dateTimeEnd) }}
+    {{ form_row(form.groupes) }}
+    <button class="btn btn-primary" type="submit">{{ 'button.save'|trans }}</button>
 {{ form_end(form) }}

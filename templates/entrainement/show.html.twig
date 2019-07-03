@@ -5,21 +5,39 @@
 {% block body %}
     <h1>{{ 'title.entrainement'|trans }}</h1>
 
+    {% set token = csrf_token('delete_entrainement') %}
+
     <table class="table">
         <tbody>
-            <tr>
-                <th>DateTimeStart</th>
-                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateTimeEnd</th>
-                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
+        <tr>
+            <th>{{ 'entrainement.dtstart'|trans }}</th>
+            <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'entrainement.dtend'|trans }}</th>
+            <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'entrainement.groupes'|trans }}</th>
+            <td>
+                <ul>
+                    {% for groupe in entrainement.groupes %}
+                        <li>{{ groupe.name }}</li>
+                    {% else %}
+                        {{ 'entrainement.noYet'|trans }}
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
         </tbody>
     </table>
 
     <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">{{ 'back.list'|trans }}</a>
 
-    <a class="btn btn-info" href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">{{ 'button.edit'|trans }}</a>
+    <a class="btn btn-info"
+       href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">{{ 'button.edit'|trans }}</a>
+
+    <a href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}"
+       class="btn btn-danger">{{ 'button.delete'|trans }}</a>
 
 {% endblock %}

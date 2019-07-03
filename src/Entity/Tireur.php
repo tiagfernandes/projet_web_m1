@@ -41,7 +41,7 @@ class Tireur extends User
     private $groupe;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntrainementTireur", mappedBy="idTireur", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\EntrainementTireur", mappedBy="tireur", orphanRemoval=true)
      */
     private $entrainementTireurs;
 
@@ -255,5 +255,14 @@ class Tireur extends User
         }
 
         return $this;
+    }
+
+    public function isPresentByEntrainement($id) {
+        foreach ($this->getEntrainementTireurs() as $entrainementTireur) {
+            if ($entrainementTireur->getEntrainement()->getId() === $id and $entrainementTireur->getPresent()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

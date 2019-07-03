@@ -34,7 +34,7 @@ class EntrainementRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Entrainement
@@ -47,4 +47,30 @@ class EntrainementRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllByDate()
+    {
+        return $this->findBy(
+            [],
+            ['dateTimeStart' => 'ASC']
+        );
+    }
+
+    public function findByDate()
+    {
+//        $dateStart = date_add(new \DateTime(), date_interval_create_from_date_string('-1 hours'));
+//        $dateEnd = date_add(new \DateTime(), date_interval_create_from_date_string('1 hours'));
+        $dateStart = date_add(new \DateTime(), date_interval_create_from_date_string('-1 days'));
+        $dateEnd = date_add(new \DateTime(), date_interval_create_from_date_string('1 days'));
+
+        return $this->createQueryBuilder('entrainement')
+            ->andWhere('entrainement.dateTimeStart BETWEEN :dateStart AND :dateEnd')
+            ->setParameters(array(
+                'dateStart' => $dateStart,
+                'dateEnd' => $dateEnd
+            ))
+            ->orderBy('entrainement.dateTimeStart', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

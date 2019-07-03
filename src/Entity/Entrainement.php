@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EntrainementRepository")
@@ -19,11 +21,16 @@ class Entrainement
     private $id;
 
     /**
+     * @Assert\DateTime()
      * @ORM\Column(type="datetime")
      */
     private $dateTimeStart;
 
     /**
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual(
+     *     propertyPath="dateTimeStart"
+     * )
      * @ORM\Column(type="datetime")
      */
     private $dateTimeEnd;
@@ -34,7 +41,7 @@ class Entrainement
     private $groupes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntrainementTireur", mappedBy="idEntrainement", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\EntrainementTireur", mappedBy="entrainement", orphanRemoval=true)
      */
     private $entrainementTireurs;
 
@@ -48,6 +55,8 @@ class Entrainement
         $this->groupes = new ArrayCollection();
         $this->entrainementTireurs = new ArrayCollection();
         $this->lecons = new ArrayCollection();
+        $this->setDateTimeStart(new DateTime());
+        $this->setDateTimeEnd(new DateTime());
     }
 
     public function getId(): ?int

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.showMembers'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.showMembers'|trans }}</h1>
+
+    {% set token = csrf_token('delete_entrainement') %}
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'tireur.lastName'|trans }}</th>
+            <th>{{ 'tireur.firstName'|trans }}</th>
+            <th>{{ 'action'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tireur in tireurs %}
+            <tr>
+                <td>{{ tireur.lastName }}</td>
+                <td>{{ tireur.firstName }}</td>
+                <td>
+                    {% dump tireur.getEntrainementTireurs() %}
+                    {% if tireur.isPresentByEntrainement(idEntrainement) %}
+                        <a class="btn btn-danger"
+                           href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 0}) }}">{{ 'button.present.cancel'|trans }}</a>
+                    {% else %}
+                        <a class="btn btn-success"
+                           href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 1}) }}">{{ 'button.present'|trans }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>
+                    {{ 'presence.liste.vide'|trans }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_entrainement_today') }}">{{ 'button.list.today'|trans }}</a>
+
+
+{% endblock %}
