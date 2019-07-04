@@ -18,24 +18,52 @@ class Competition
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateTimeStart;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Blason", inversedBy="competitions")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $dateTimeEnd;
+    private $blason;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TypeCompetition", mappedBy="competition", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Arme", inversedBy="competitions")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $typeCompetitions;
+    private $arme;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Civ", inversedBy="competitions")
+     */
+    private $civ;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $handisport;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="competition", orphanRemoval=true)
+     */
+    private $inscription;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourCompetition", inversedBy="competitions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $jourCompetition;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategorieAge")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categorie;
+
 
     public function __construct()
     {
-        $this->typeCompetitions = new ArrayCollection();
+        $this->civ = new ArrayCollection();
+        $this->tireurCompetitions = new ArrayCollection();
+        $this->inscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,58 +71,145 @@ class Competition
         return $this->id;
     }
 
-    public function getDateTimeStart(): ?\DateTimeInterface
+    public function getBlason(): ?Blason
     {
-        return $this->dateTimeStart;
+        return $this->blason;
     }
 
-    public function setDateTimeStart(\DateTimeInterface $dateTimeStart): self
+    public function setBlason(?Blason $blason): self
     {
-        $this->dateTimeStart = $dateTimeStart;
+        $this->blason = $blason;
 
         return $this;
     }
 
-    public function getDateTimeEnd(): ?\DateTimeInterface
+    public function getArme(): ?Arme
     {
-        return $this->dateTimeEnd;
+        return $this->arme;
     }
 
-    public function setDateTimeEnd(\DateTimeInterface $dateTimeEnd): self
+    public function setArme(?Arme $arme): self
     {
-        $this->dateTimeEnd = $dateTimeEnd;
+        $this->arme = $arme;
 
         return $this;
     }
 
     /**
-     * @return Collection|TypeCompetition[]
+     * @return Collection|Civ[]
      */
-    public function getTypeCompetitions(): Collection
+    public function getCiv(): Collection
     {
-        return $this->typeCompetitions;
+        return $this->civ;
     }
 
-    public function addTypeCompetition(TypeCompetition $typeCompetition): self
+    public function addCiv(Civ $civ): self
     {
-        if (!$this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions[] = $typeCompetition;
-            $typeCompetition->setCompetition($this);
+        if (!$this->civ->contains($civ)) {
+            $this->civ[] = $civ;
         }
 
         return $this;
     }
 
-    public function removeTypeCompetition(TypeCompetition $typeCompetition): self
+    public function removeCiv(Civ $civ): self
     {
-        if ($this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions->removeElement($typeCompetition);
+        if ($this->civ->contains($civ)) {
+            $this->civ->removeElement($civ);
+        }
+
+        return $this;
+    }
+
+    public function getHandisport(): ?bool
+    {
+        return $this->handisport;
+    }
+
+    public function setHandisport(?bool $handisport): self
+    {
+        $this->handisport = $handisport;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscription(): Collection
+    {
+        return $this->inscription;
+    }
+
+    public function addTireur(Inscription $tireur): self
+    {
+        if (!$this->inscription->contains($tireur)) {
+            $this->inscription[] = $tireur;
+            $tireur->setCompetition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTireur(Inscription $tireur): self
+    {
+        if ($this->inscription->contains($tireur)) {
+            $this->inscription->removeElement($tireur);
             // set the owning side to null (unless already changed)
-            if ($typeCompetition->getCompetition() === $this) {
-                $typeCompetition->setCompetition(null);
+            if ($tireur->getCompetition() === $this) {
+                $tireur->setCompetition(null);
             }
         }
 
         return $this;
+    }
+
+    public function getJourCompetition(): ?JourCompetition
+    {
+        return $this->jourCompetition;
+    }
+
+    public function setJourCompetition(?JourCompetition $jourCompetition): self
+    {
+        $this->jourCompetition = $jourCompetition;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?CategorieAge
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?CategorieAge $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getCategories()
+    {
+        $categories = new ArrayCollection();
+        $categorie = $this->getCategorie()->getName();
+        if (!$categories->contains($categorie)) {
+            $categories[] = $categorie;
+        }
+
+        return $categories;
+    }
+
+
+    public function getGenres()
+    {
+        $genres = new ArrayCollection();
+        foreach ($this->getCiv() as $civ) {
+            $c = $civ->getName();
+            if (!$genres->contains($c)) {
+                $genres[] = $c;
+            }
+        }
+
+        return $genres;
     }
 }

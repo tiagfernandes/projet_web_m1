@@ -13,21 +13,23 @@
             <img src="{{ asset('assets/img/logo_MVDS.PNG') }}" alt="Logo" width="150">
         </div>
         <div class="sidebar-header">
-            <div class="user-pic">
-                <img class="img-responsive img-rounded"
-                     src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-                     alt="User picture">
-            </div>
-            <div class="user-info">
-          <span class="user-name">{{ app.user.firstName }}
-            <strong>{{ app.user.lastName }}</strong>
-          </span>
-                <span class="user-role">{{ app.user.roles[0] }}</span>
-                <span class="user-status">
-            <i class="fa fa-circle"></i>
-            <span>Online</span>
-          </span>
-            </div>
+            <a href="{{ path('app_profile_edit') }}">
+                <div class="user-pic">
+                    <img class="img-responsive img-rounded"
+                         src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+                         alt="User picture">
+                </div>
+                <div class="user-info">
+                  <span class="user-name">{{ app.user.firstName }}
+                    <strong>{{ app.user.lastName }}</strong>
+                  </span>
+                    <span class="user-role">{{ app.user.roles[0] }}</span>
+                    <span class="user-status">
+                        <i class="fa fa-circle"></i>
+                        <span>Online</span>
+                    </span>
+                </div>
+            </a>
         </div>
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
@@ -58,18 +60,14 @@
                     </div>
                 </li>
                 <li class="sidebar-dropdown">
-                    <a href="#">
+                    <a href="{{ path('app_entrainement_today') }}">
+
                         <i class="fa fa-shopping-cart"></i>
-                        <span>E-commerce</span>
-                        <span class="badge badge-pill badge-danger">3</span>
+                        <span>Entraînements du jour</span>
+                        {#<span class="badge badge-pill badge-danger">3</span>#}
                     </a>
                     <div class="sidebar-submenu">
                         <ul>
-                            <li>
-                                <a href="#">Products
-
-                                </a>
-                            </li>
                             <li>
                                 <a href="#">Orders</a>
                             </li>

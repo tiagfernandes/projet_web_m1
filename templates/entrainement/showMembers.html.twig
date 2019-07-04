@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Membres{% endblock %}
+
+{% block body %}
+    <h1>Membres</h1>
+
+    {% set token = csrf_token('delete_entrainement') %}
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tireur in tireurs %}
+            <tr>
+                <td>{{ tireur.lastName }}</td>
+                <td>{{ tireur.firstName }}</td>
+                <td>
+                    {% if tireur.isPresentByEntrainement(idEntrainement) %}
+                        <a class="btn btn-danger"
+                           href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 0}) }}">Non Présent</a>
+                    {% else %}
+                        <a class="btn btn-success"
+                           href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 1}) }}">Présent</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>
+                    Il n'y a encore aucun tireurs dans cet entraînement.
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_entrainement_today') }}">Retour à la liste des entraînements du jour</a>
+
+
+{% endblock %}

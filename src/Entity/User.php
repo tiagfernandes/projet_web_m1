@@ -87,6 +87,8 @@ abstract class User implements UserInterface
      */
     private $civ;
 
+    private $rawPassword;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Objectif", mappedBy="createdBy")
      */
@@ -288,6 +290,22 @@ abstract class User implements UserInterface
     {
 
     }
+
+    /**
+     * @return null|string
+     */
+    public function getRawPassword(): ?string
+    {
+        return $this->rawPassword;
+    }
+    /**
+     * @param null|string $rawPassword
+     */
+    public function setRawPassword(?string $rawPassword): void
+    {
+        $this->rawPassword = $rawPassword;
+    }
+
     /**
      * @return mixed
      */

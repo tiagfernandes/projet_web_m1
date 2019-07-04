@@ -2,26 +2,36 @@
 
 namespace App\Repository;
 
-use App\Entity\Groupe;
+use App\Entity\Inscription;
 use App\Entity\Tireur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Tireur|null find($id, $lockMode = null, $lockVersion = null)
- * @method Tireur|null findOneBy(array $criteria, array $orderBy = null)
- * @method Tireur[]    findAll()
- * @method Tireur[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Inscription|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Inscription|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Inscription[]    findAll()
+ * @method Inscription[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TireurRepository extends ServiceEntityRepository
+class InscriptionRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Tireur::class);
+        parent::__construct($registry, Inscription::class);
+    }
+
+
+    public function findByUser(Tireur $user)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.tireur = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
-    //  * @return Tireur[] Returns an array of Tireur objects
+    //  * @return Inscription[] Returns an array of Inscription objects
     //  */
     /*
     public function findByExampleField($value)
@@ -38,7 +48,7 @@ class TireurRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Tireur
+    public function findOneBySomeField($value): ?Inscription
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')
@@ -48,13 +58,4 @@ class TireurRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    public function findByGroupe(Groupe $groupe) {
-        return $this->createQueryBuilder('tireur')
-            ->andWhere('tireur.groupe = :groupe')
-            ->setParameter('groupe', $groupe)
-            ->orderBy('tireur.lastName')
-            ->getQuery()
-            ->getResult();
-    }
 }

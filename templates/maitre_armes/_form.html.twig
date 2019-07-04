@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-block btn-outline-{% if button_label is defined %}warning{% else %}secondary{% endif %}">
+        {{ button_label|default('Save') }}
+    </button>
+{{ form_end(form) }}

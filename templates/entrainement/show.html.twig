@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les entraînements{% endblock %}
+
+{% block body %}
+    <h1>Tous les entraînements</h1>
+
+    {% set token = csrf_token('delete_entrainement') %}
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Début</th>
+            <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Fin</th>
+            <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Groupes</th>
+            <td>
+                <ul>
+                    {% for groupe in entrainement.groupes %}
+                        <li>{{ groupe.name }}</li>
+                    {% else %}
+                        Aucun groupe n'est affilié à cet entraînement pour le moment.
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">Retour à la liste</a>
+
+    <a class="btn btn-info"
+       href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">Modifier</a>
+
+    <a href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}"
+       class="btn btn-danger">Supprimer</a>
+
+{% endblock %}

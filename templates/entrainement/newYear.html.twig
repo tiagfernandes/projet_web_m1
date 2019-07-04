@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter des entraînements à l'année{% endblock %}
+
+{% block body %}
+    <h1>Ajouter des entraînements à l'année</h1>
+
+    {{ include('entrainement/_formYear.html.twig') }}
+
+    <a class="btn btn-info mt-2" href="{{ path('app_entrainement_index') }}">Retour à la liste</a>
+{% endblock %}

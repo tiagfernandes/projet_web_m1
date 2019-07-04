@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MaitreArmes index{% endblock %}
+
+{% block body %}
+    <h1>MaitreArmes index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>DtBirthday</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>CreatedAt</th>
+            <th>Username</th>
+            <th>Handisport</th>
+            <th>IsDelete</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for maitre_arme in maitre_armes %}
+            <tr>
+                <td>{{ maitre_arme.firstName }}</td>
+                <td>{{ maitre_arme.lastName }}</td>
+                <td>{{ maitre_arme.dtBirthday ? maitre_arme.dtBirthday|date('Y-m-d') : '' }}</td>
+                <td>{{ maitre_arme.email }}</td>
+                <td>{{ maitre_arme.phone }}</td>
+                <td>{{ maitre_arme.createdAt ? maitre_arme.createdAt|date('Y-m-d') : '' }}</td>
+                <td>{{ maitre_arme.username }}</td>
+                <td>{{ maitre_arme.handisport ? 'Yes' : 'No' }}</td>
+                <td>{{ maitre_arme.isDelete ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a class="text-warning" href="{{ path('maitre_armes_show', {'id': maitre_arme.id}) }}"><i
+                                class="far fa-edit"></i></a>
+                    <a class="text-danger" href="{{ path('maitre_armes_edit', {'id': maitre_arme.id}) }}"><i
+                                class="far fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('maitre_armes_new') }}">Create new</a>
+{% endblock %}

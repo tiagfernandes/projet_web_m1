@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TireurRepository")
@@ -41,7 +44,7 @@ class Tireur extends User
     private $groupe;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\EntrainementTireur", mappedBy="idTireur", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\EntrainementTireur", mappedBy="tireur", orphanRemoval=true)
      */
     private $entrainementTireurs;
 
@@ -51,9 +54,9 @@ class Tireur extends User
     private $lecons;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TireurCompetition", mappedBy="tireur", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="tireur", orphanRemoval=true)
      */
-    private $typeCompetitions;
+    private $inscriptions;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Objectif", mappedBy="tireur", orphanRemoval=true)
@@ -65,7 +68,7 @@ class Tireur extends User
         parent::__construct();
         $this->entrainementTireurs = new ArrayCollection();
         $this->lecons = new ArrayCollection();
-        $this->typeCompetitions = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
         $this->objectifs = new ArrayCollection();
 
 
@@ -196,27 +199,27 @@ class Tireur extends User
     }
 
     /**
-     * @return Collection|TireurCompetition[]
+     * @return Collection|Inscription[]
      */
-    public function getTypeCompetitions(): Collection
+    public function getInscriptions(): Collection
     {
-        return $this->typeCompetitions;
+        return $this->inscriptions;
     }
 
-    public function addTypeCompetition(TireurCompetition $typeCompetition): self
+    public function addTypeCompetition(Inscription $typeCompetition): self
     {
-        if (!$this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions[] = $typeCompetition;
+        if (!$this->inscriptions->contains($typeCompetition)) {
+            $this->inscriptions[] = $typeCompetition;
             $typeCompetition->setTireur($this);
         }
 
         return $this;
     }
 
-    public function removeTypeCompetition(TireurCompetition $typeCompetition): self
+    public function removeTypeCompetition(Inscription $typeCompetition): self
     {
-        if ($this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions->removeElement($typeCompetition);
+        if ($this->inscriptions->contains($typeCompetition)) {
+            $this->inscriptions->removeElement($typeCompetition);
             // set the owning side to null (unless already changed)
             if ($typeCompetition->getTireur() === $this) {
                 $typeCompetition->setTireur(null);
@@ -255,6 +258,51 @@ class Tireur extends User
         }
 
         return $this;
+    }
+
+    public function isPresentByEntrainement($id)
+    {
+        foreach ($this->getEntrainementTireurs() as $entrainementTireur) {
+            if ($entrainementTireur->getEntrainement()->getId() === $id and $entrainementTireur->getPresent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return categorie by age
+     * @param EntityManager $em
+     * @return CategorieAge|mixed|object|null
+     * @throws Exception
+     */
+    public function getCategorieAge(EntityManager $em)
+    {
+        $categorieAges = $em->getRepository(CategorieAge::class)->findAll();
+
+        $date = new DateTime();
+
+
+        $dateJanury = $date;
+        $dateJanury->setDate($date->format('Y'), 1, 1);
+
+        $dateAugust = $date;
+        $dateAugust->setDate($date->format('Y'), 8, 31);
+
+        if (($dateJanury <= $date) && ($date <= $dateAugust)) {
+            $date->setDate($date->format('Y') - 1, 9, 1);
+        } else {
+            $date->setDate($date->format('Y'), 9, 1);
+        }
+
+        $yearDiff = date_diff($this->getDtBirthday(), $date)->y;
+        foreach ($categorieAges as $categorieAge) {
+            if (($categorieAge->getAgeMin() <= $yearDiff) && ($yearDiff <= $categorieAge->getAgeMax())) {
+                return $categorieAge;
+            }
+        }
+
+        return null;
     }
 
     public function __toString()
