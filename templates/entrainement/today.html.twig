@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entraînements du jour{% endblock %}
+
+{% block body %}
+    <h1>Entraînements du jour</h1>
+
+    {% set token = csrf_token('delete_entrainement') %}
+
+    {% if app.user %}
+        <a href="{{ path('app_entrainement_index') }}" class="btn btn-primary mb-2">Retour à la liste de tous les
+            entraînements</a>
+    {% else %}
+        <a href="{{ path('app_security_login') }}" class="btn btn-primary mb-2">Se connecter</a>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            {#<th>id</th>#}
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Groupes</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entrainement in entrainements %}
+            <tr>
+                {#<td>{{ entrainement.id }}</td>#}
+                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <ul>
+                        {% for groupe in entrainement.groupes %}
+                            <li>{{ groupe.name }}</li>
+                        {% else %}
+                            Aucun groupe n'est affilié à cet entraînement.
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a class="btn btn-info"
+                       href="{{ path('app_entrainement_showmembers', {'id': entrainement.id}) }}">Liste des
+                        participants</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Il n'y pas de d'entraînements actuellement.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

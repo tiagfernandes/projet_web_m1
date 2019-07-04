@@ -36,7 +36,7 @@ class TireurFixtures extends Fixture
         $tireur->setUsername('tireur');
         $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
         $tireur->setMainForte('Droite');
-        $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Jaune')));
+        $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Vert')));
         $tireur->setGroupe($manager->getRepository(Groupe::class)->findOneBy(array('name' => 'Groupe1')));
         $tireur->setPassword($this->encoder->encodePassword($tireur, 'test'));
 
@@ -55,6 +55,74 @@ class TireurFixtures extends Fixture
         $tireur->setMainForte('Droite');
         $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Jaune')));
         $tireur->setGroupe($manager->getRepository(Groupe::class)->findOneBy(array('name' => 'Groupe1')));
+        $tireur->setPassword($this->encoder->encodePassword($tireur, 'test'));
+
+        $manager->persist($tireur);
+
+        $tireur = new Tireur();
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
+        $tireur->setEmail($faker->email);
+        $tireur->setFirstName($faker->firstNameMale);
+        $tireur->setLastName($faker->lastName);
+        $tireur->setHandisport($faker->boolean);
+        $tireur->setPhone($faker->phoneNumber);
+        $tireur->setUsername('tireur2');
+        $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
+        $tireur->setMainForte('Droite');
+        $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Bleu')));
+        $tireur->setGroupe($manager->getRepository(Groupe::class)->findOneBy(array('name' => 'Groupe2')));
+        $tireur->setPassword($this->encoder->encodePassword($tireur, 'test'));
+
+        $manager->persist($tireur);
+
+        $tireur = new Tireur();
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
+        $tireur->setEmail($faker->email);
+        $tireur->setFirstName($faker->firstNameMale);
+        $tireur->setLastName($faker->lastName);
+        $tireur->setHandisport($faker->boolean);
+        $tireur->setPhone($faker->phoneNumber);
+        $tireur->setUsername('tireur2');
+        $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
+        $tireur->setMainForte('Droite');
+        $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Jaune')));
+        $tireur->setGroupe($manager->getRepository(Groupe::class)->findOneBy(array('name' => 'Groupe2')));
+        $tireur->setPassword($this->encoder->encodePassword($tireur, 'test'));
+
+        $manager->persist($tireur);
+
+        $tireur = new Tireur();
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
+        $tireur->setEmail($faker->email);
+        $tireur->setFirstName($faker->firstNameMale);
+        $tireur->setLastName($faker->lastName);
+        $tireur->setHandisport($faker->boolean);
+        $tireur->setPhone($faker->phoneNumber);
+        $tireur->setUsername('tireur2');
+        $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
+        $tireur->setMainForte('Droite');
+        $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Jaune')));
+        $tireur->setGroupe($manager->getRepository(Groupe::class)->findOneBy(array('name' => 'Groupe3')));
+        $tireur->setPassword($this->encoder->encodePassword($tireur, 'test'));
+
+        $manager->persist($tireur);
+
+        $tireur = new Tireur();
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
+        $tireur->setEmail($faker->email);
+        $tireur->setFirstName($faker->firstNameMale);
+        $tireur->setLastName($faker->lastName);
+        $tireur->setHandisport($faker->boolean);
+        $tireur->setPhone($faker->phoneNumber);
+        $tireur->setUsername('tireur2');
+        $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
+        $tireur->setMainForte('Droite');
+        $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Rouge')));
+        $tireur->setGroupe($manager->getRepository(Groupe::class)->findOneBy(array('name' => 'Groupe3')));
         $tireur->setPassword($this->encoder->encodePassword($tireur, 'test'));
 
         $manager->persist($tireur);

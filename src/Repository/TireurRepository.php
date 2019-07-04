@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Groupe;
 use App\Entity\Tireur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -47,4 +48,13 @@ class TireurRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByGroupe(Groupe $groupe) {
+        return $this->createQueryBuilder('tireur')
+            ->andWhere('tireur.groupe = :groupe')
+            ->setParameter('groupe', $groupe)
+            ->orderBy('tireur.lastName')
+            ->getQuery()
+            ->getResult();
+    }
 }
