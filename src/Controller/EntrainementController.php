@@ -153,7 +153,7 @@ class EntrainementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/presence", methods={"GET"})
+     * @Route("/today/{id}/presence", methods={"GET"})
      */
     public function showMembers(Entrainement $entrainement): Response
     {

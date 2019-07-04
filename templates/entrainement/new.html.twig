@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'title.entrainement.create'|trans }}{% endblock %}
+{% block title %}Ajouter un entraînement{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.entrainement.create'|trans }}</h1>
+    <h1>Ajouter un entraînement</h1>
 
     {{ include('entrainement/_form.html.twig') }}
 
-    <a class="btn btn-info mt-2" href="{{ path('app_entrainement_index') }}">{{ 'back.list'|trans }}</a>
+    <a class="btn btn-info mt-2" href="{{ path('app_entrainement_index') }}">Retour à la liste</a>
 {% endblock %}

@@ -1,31 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'title.entrainement.index'|trans }}{% endblock %}
+{% block title %}Entraînements{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.entrainement.index'|trans }}</h1>
+    <h1>Entraînements</h1>
 
     {% set token = csrf_token('delete_entrainement') %}
 
     {% if app.user %}
-        <a class="btn btn-primary mb-2" href="{{ path('app_entrainement_new') }}">{{ 'button.create'|trans }}</a>
+        <a class="btn btn-primary mb-2" href="{{ path('app_entrainement_new') }}">Ajouter un nouvel entraînmement</a>
         <a class="btn btn-primary mb-2"
-           href="{{ path('app_entrainement_newyear') }}">{{ 'button.createYear'|trans }}</a>
+           href="{{ path('app_entrainement_newyear') }}">Ajouter un entraînement pour l'année</a>
     {% endif %}
     <table class="table">
         <thead>
         <tr>
-            <th>id</th>
-            <th>{{ 'entrainement.datetimestart.label'|trans }}</th>
-            <th>{{ 'entrainement.datetimeend.label'|trans }}</th>
-            <th>{{ 'entrainement.groupes'|trans }}</th>
-            <th>{{ 'action'|trans }}</th>
+            {#<th>id</th>#}
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Groupes</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for entrainement in entrainements %}
             <tr>
-                <td>{{ entrainement.id }}</td>
+                {#<td>{{ entrainement.id }}</td>#}
                 <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
@@ -33,24 +33,24 @@
                         {% for groupe in entrainement.groupes %}
                             <li>{{ groupe.name }}</li>
                         {% else %}
-                            {{ 'entrainement.noYet'|trans }}
+                            Il n'y a pas de groupes pour cet entraînement.
                         {% endfor %}
                     </ul>
                 </td>
                 <td>
                     <a class="btn btn-info"
-                       href="{{ path('app_entrainement_show', {'id': entrainement.id}) }}">{{ 'button.show'|trans }}</a>
+                       href="{{ path('app_entrainement_show', {'id': entrainement.id}) }}">Afficher</a>
                     |
                     <a class="btn btn-info"
-                       href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">{{ 'button.edit'|trans }}</a>
+                       href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">Modifier</a>
                     |
                     <a class="btn btn-danger"
-                       href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}">{{ 'button.delete'|trans }}</a>
+                       href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}">Supprimer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">{{ 'no.entrainement.yet'|trans }}</td>
+                <td colspan="4">Il n'y a pas d'entraînements pour le moment.</td>
             </tr>
         {% endfor %}
         </tbody>

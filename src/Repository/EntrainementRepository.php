@@ -69,7 +69,7 @@ class EntrainementRepository extends ServiceEntityRepository
                 'dateStart' => $dateStart,
                 'dateEnd' => $dateEnd
             ))
-            ->orderBy('entrainement.dateTimeStart', 'DESC')
+            ->orderBy('entrainement.dateTimeStart', 'ASC')
             ->getQuery()
             ->getResult();
     }
