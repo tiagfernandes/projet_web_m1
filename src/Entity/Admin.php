@@ -20,6 +20,7 @@ class Admin extends User
     public function __construct()
     {
         parent::__construct();
+        $this->setRoles(array('ROLE_ADMIN'));
         $this->competitions = new ArrayCollection();
     }
 

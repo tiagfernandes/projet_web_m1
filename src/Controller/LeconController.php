@@ -24,8 +24,7 @@ class LeconController extends AbstractController
     public function index(LeconRepository $leconRepository): Response
     {
 
-        if($this->getUser()->getRoles()[0] === 'ROLE_MAITRE') {
-
+        if ($this->getUser()->getRoles()[0] === 'ROLE_MAITRE') {
             $lecons = $leconRepository->findBy(
                 ['maitreArmes' => $this->getUser()]
             );
@@ -34,24 +33,29 @@ class LeconController extends AbstractController
             $lecons = $leconRepository->findBy(
                 ['tireur' => $this->getUser()]
             );
+        } else if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $lecons = $leconRepository->findBy(
+                ['present' => true]
+            );
         }
 
-        return $this->render('lecon/index.html.twig', [
-            'lecons' => $lecons,
-        ]);
-    }
+            return $this->render('lecon/index.html.twig', [
+                'lecons' => $lecons,
+            ]);
+        }
 
-    /**
-     * @Route("/{idEntrainement}/new", methods={"GET","POST"})
-     * @ParamConverter("entrainement", options={"id" = "idEntrainement"})
-     */
-    public function new(Request $request, Entrainement $entrainement): Response
+        /**
+         * @Route("/{idEntrainement}/new", methods={"GET","POST"})
+         * @ParamConverter("entrainement", options={"id" = "idEntrainement"})
+         */
+        public
+        function new(Request $request, Entrainement $entrainement): Response
     {
         $lecon = new Lecon();
 
         $lecon->setEntrainement($entrainement);
 
-        if($this->getUser()->getRoles()[0] === 'ROLE_MAITRE') {
+        if ($this->getUser()->getRoles()[0] === 'ROLE_MAITRE') {
             $lecon->setMaitreArmes($this->getUser());
         } else if ($this->getUser()->getRoles()[0] === 'ROLE_TIREUR') {
             $lecon->setTireur($this->getUser());
@@ -94,9 +98,9 @@ class LeconController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $commentaires= $lecon->getCommentaires();
+            $commentaires = $lecon->getCommentaires();
             $entityManager = $this->getDoctrine()->getManager();
-            foreach($commentaires as $commentaire){
+            foreach ($commentaires as $commentaire) {
 
                 $commentaire->setLecon($lecon);
                 $entityManager->persist($commentaire);
@@ -108,7 +112,6 @@ class LeconController extends AbstractController
                 'id' => $lecon->getId(),
             ]);
         }
-
 
 
         return $this->render('lecon/edit.html.twig', [

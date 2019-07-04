@@ -36,8 +36,14 @@ class EntrainementController extends AbstractController
      */
     public function mesEntrainements(EntrainementRepository $repository) {
 
+        if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $entrainements = $repository->findAll();
+        } else {
+            $entrainements = $repository->findMine($this->getUser());
+        }
+
         return $this->render('entrainement/index.html.twig', array(
-            'entrainements' => $repository->findMine($this->getUser())
+            'entrainements' => $entrainements
         ));
 
     }
