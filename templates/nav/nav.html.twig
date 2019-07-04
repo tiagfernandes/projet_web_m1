@@ -23,7 +23,7 @@
                   <span class="user-name">{{ app.user.firstName }}
                     <strong>{{ app.user.lastName }}</strong>
                   </span>
-                    <span class="user-role">{{ app.user.roles[0] }}</span>
+                    <span class="user-role">{{ app.user.groupe.name }}</span>
                     <span class="user-status">
                         <i class="fa fa-circle"></i>
                         <span>Online</span>
@@ -64,6 +64,18 @@
 
                         <i class="fa fa-shopping-cart"></i>
                         <span>Entraînements du jour</span>
+                        {#<span class="badge badge-pill badge-danger">3</span>#}
+                    </a>
+                    <a href="{{ path('app_entrainement_mesentrainements') }}">
+
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Mes Entraînements</span>
+                        {#<span class="badge badge-pill badge-danger">3</span>#}
+                    </a>
+                    <a href="{{ path('app_lecon_index') }}">
+
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Mes leçons</span>
                         {#<span class="badge badge-pill badge-danger">3</span>#}
                     </a>
                     <div class="sidebar-submenu">

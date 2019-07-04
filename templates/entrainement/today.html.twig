@@ -8,10 +8,10 @@
     {% set token = csrf_token('delete_entrainement') %}
 
     {% if app.user %}
-        <a href="{{ path('app_entrainement_index') }}" class="btn btn-primary mb-2">Retour à la liste de tous les
+        <a href="{{ path('app_entrainement_index') }}" class="btn btn-outline-primary mb-2">Retour à la liste de tous les
             entraînements</a>
     {% else %}
-        <a href="{{ path('app_security_login') }}" class="btn btn-primary mb-2">Se connecter</a>
+        <a href="{{ path('app_security_login') }}" class="btn btn-outline-primary mb-2">Se connecter</a>
     {% endif %}
 
     <table class="table">

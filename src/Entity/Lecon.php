@@ -49,6 +49,7 @@ class Lecon
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->present = true;
     }
 
     public function getId(): ?int

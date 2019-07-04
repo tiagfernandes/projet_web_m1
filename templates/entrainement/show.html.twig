@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les entraînements{% endblock %}
+{% block title %}Entraînements{% endblock %}
 
 {% block body %}
-    <h1>Tous les entraînements</h1>
+    <h1>Entraînements</h1>
 
     {% set token = csrf_token('delete_entrainement') %}
 
@@ -32,12 +32,17 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">Retour à la liste</a>
+    <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">Tous les entrainements</a>
+    <a class="btn btn-primary" href="{{ path('app_entrainement_mesentrainements') }}">Mes entrainements</a>
 
-    <a class="btn btn-info"
-       href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">Modifier</a>
+    {% if is_granted('ROLE_ADMIN') %}
 
-    <a href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}"
-       class="btn btn-danger">Supprimer</a>
+        <a class="btn btn-info"
+           href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">Modifier</a>
+
+        <a href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}"
+           class="btn btn-danger">Supprimer</a>
+
+    {% endif %}
 
 {% endblock %}

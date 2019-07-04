@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une leçon{% endblock %}
+
+{% block body %}
+    <h1>Modifier une leçon</h1>
+
+    {{ include('lecon/_formEdit.html.twig') }}
+
+    <a href="{{ path('app_lecon_index') }}">Retour aux leçons</a>
+
+{% endblock %}

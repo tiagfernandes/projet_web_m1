@@ -32,6 +32,17 @@ class EntrainementController extends AbstractController
     }
 
     /**
+     * @Route("/done")
+     */
+    public function mesEntrainements(EntrainementRepository $repository) {
+
+        return $this->render('entrainement/index.html.twig', array(
+            'entrainements' => $repository->findMine($this->getUser())
+        ));
+
+    }
+
+    /**
      * @Route("/today", methods={"GET"})
      */
     public function today(EntrainementRepository $entrainementRepository): Response
@@ -171,21 +182,28 @@ class EntrainementController extends AbstractController
     }
 
     /**
-     * @Route("/{tireur}/{entrainement}/{presence}/present")
+     * @Route("/today/{tireur}/{entrainement}/{presence}/present")
      */
     public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence) {
 
-        foreach ($tireur->getEntrainementTireurs() as $entrainementTireur) {
-            if ($entrainementTireur->getEntrainement() === $entrainement ) {
-                $entrainementTireur->setPresent($presence);
+        $today = new \DateTime();
+
+        if($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd() || $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
+
+            foreach ($tireur->getEntrainementTireurs() as $entrainementTireur) {
+                if ($entrainementTireur->getEntrainement() === $entrainement) {
+                    $entrainementTireur->setPresent($presence);
+                }
             }
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_entrainement_showmembers', array(
+                'id' => $entrainement->getId()
+            ));
         }
 
-        $this->getDoctrine()->getManager()->flush();
-
-        return $this->redirectToRoute('app_entrainement_showmembers', array(
-            'id' => $entrainement->getId()
-        ));
+        return $this->redirectToRoute('app_security_login');
 
     }
 
