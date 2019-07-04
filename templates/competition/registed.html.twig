@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Competition registed{% endblock %}
+
+{% block body %}
+    <h1>{{ block('title') }}</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>DateTimeStart</th>
+            <th>DateTimeEnd</th>
+            <th>Blason</th>
+            <th>Arme</th>
+            <th>Civ</th>
+            <th>Categorie</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for competition in competitions %}
+            <tr>
+                <td>{{ competition.jourCompetition.dateTimeStart ? competition.jourCompetition.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ competition.jourCompetition.dateTimeEnd ? competition.jourCompetition.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ competition.blason.grade }}</td>
+                <td>{{ competition.arme.name }}</td>
+                <td>{{ competition.getCiv|join(', ') }}</td>
+                <td>{{ competition.categorie.name }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>
+                    no records found
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a href="{{ path('app_competition_registration') }}">S'inscrire à une compétition</a>
+{% endblock %}

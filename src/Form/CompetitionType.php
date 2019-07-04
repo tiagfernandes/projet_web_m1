@@ -1,11 +1,14 @@
 <?php
 
+
 namespace App\Form;
 
+
+use App\Entity\Blason;
+use App\Entity\CategorieAge;
 use App\Entity\Competition;
-use App\Entity\TypeCompetition;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,14 +17,18 @@ class CompetitionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateTimeStart')
-            ->add('dateTimeEnd')
-            ->add('typeCompetitions', CollectionType::class, array(
-                'entry_type' => TypeCompetitionType::class,
-                'allow_add' => true,
-                'allow_delete' => true
+            ->add('blason', EntityType::class, array(
+                'class' => Blason::class,
+                'choice_label' => 'grade',
+                'placeholder' => 'Aucun'
             ))
-        ;
+            ->add('arme')
+            ->add('civ')
+            ->add('categorie', EntityType::class, array(
+                'class' => CategorieAge::class,
+                'choice_label' => 'name'
+            ))
+            ->add('handisport');
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -30,4 +37,5 @@ class CompetitionType extends AbstractType
             'data_class' => Competition::class,
         ]);
     }
+
 }

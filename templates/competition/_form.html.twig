@@ -4,14 +4,14 @@
 
 
 <div id="type-competitions-fields-list"
-     data-prototype="{{ form_widget(form.typeCompetitions.vars.prototype)|e }}"
+     data-prototype="{{ form_widget(form.competitions.vars.prototype)|e }}"
      data-widget-tags="{{ '<div class="card-body"></div>'|e }}"
      data-widget-counter="{{ form.children|length }}">
-    {% for typeCompetition in form.typeCompetitions %}
+    {% for competition in form.competitions %}
         <div class="card">
             <div class="card-body">
-                {{ form_errors(typeCompetition) }}
-                {{ form_widget(typeCompetition) }}
+                {{ form_errors(competition) }}
+                {{ form_widget(competition) }}
             </div>
         </div>
     {% endfor %}

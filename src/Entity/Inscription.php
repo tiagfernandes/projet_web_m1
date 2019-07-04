@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TireurCompetitionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\InscriptionRepository")
  */
-class TireurCompetition
+class Inscription
 {
     /**
      * @ORM\Id()
@@ -22,16 +22,16 @@ class TireurCompetition
     private $classement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tireur", inversedBy="typeCompetitions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tireur", inversedBy="inscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tireur;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypeCompetition", inversedBy="tireurs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Competition", inversedBy="tireurs")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $typeCompetition;
+    private $competition;
 
 
     public function getId(): ?int
@@ -63,14 +63,14 @@ class TireurCompetition
         return $this;
     }
 
-    public function getTypeCompetition(): ?TypeCompetition
+    public function getCompetition(): ?Competition
     {
-        return $this->typeCompetition;
+        return $this->competition;
     }
 
-    public function setTypeCompetition(?TypeCompetition $typeCompetition): self
+    public function setCompetition(?Competition $competition): self
     {
-        $this->typeCompetition = $typeCompetition;
+        $this->competition = $competition;
 
         return $this;
     }

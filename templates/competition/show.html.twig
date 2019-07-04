@@ -25,12 +25,12 @@
     <h3>Type competition</h3>
     <table class="table">
         <tbody>
-        {% for typeCompetition in competition.typeCompetitions %}
+        {% for competition in competition.competitions %}
 
             <tr>
-                <td>{{ typeCompetition.arme }}</td>
-                <td>{{ typeCompetition.blason }}</td>
-                <td>{{ typeCompetition.civ ? typeCompetition.civ|join(', ') : '' }}</td>
+                <td>{{ competition.arme }}</td>
+                <td>{{ competition.blason }}</td>
+                <td>{{ competition.civ ? competition.civ|join(', ') : '' }}</td>
             </tr>
         {% endfor %}
         </tbody>

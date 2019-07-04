@@ -7,24 +7,24 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateTimeStart</th>
-                <th>DateTimeEnd</th>
-                <th>NbType</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>DateTimeStart</th>
+            <th>DateTimeEnd</th>
+            <th>NbType</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
-        {% for competition in competitions %}
+        {% for jourCompetition in jourCompetitions %}
             <tr>
-                <td>{{ competition.id }}</td>
-                <td>{{ competition.dateTimeStart ? competition.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ competition.dateTimeEnd ? competition.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ competition.typeCompetitions|length }}</td>
+                <td>{{ jourCompetition.id }}</td>
+                <td>{{ jourCompetition.dateTimeStart ? jourCompetition.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ jourCompetition.dateTimeEnd ? jourCompetition.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ jourCompetition.competitions|length }}</td>
                 <td>
-                    <a href="{{ path('competition_show', {'id': competition.id}) }}">show</a>
-                    <a href="{{ path('competition_edit', {'id': competition.id}) }}">edit</a>
+                    <a href="{{ path('competition_show', {'id': jourCompetition.id}) }}">show</a>
+                    <a href="{{ path('competition_edit', {'id': jourCompetition.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

@@ -29,14 +29,14 @@ class Blason
     private $tireurs;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TypeCompetition", mappedBy="blason")
+     * @ORM\OneToMany(targetEntity="App\Entity\Competition", mappedBy="blason")
      */
-    private $typeCompetitions;
+    private $competitions;
 
     public function __construct()
     {
         $this->tireurs = new ArrayCollection();
-        $this->typeCompetitions = new ArrayCollection();
+        $this->competitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,27 +88,27 @@ class Blason
     }
 
     /**
-     * @return Collection|TypeCompetition[]
+     * @return Collection|Competition[]
      */
-    public function getTypeCompetitions(): Collection
+    public function getCompetitions(): Collection
     {
-        return $this->typeCompetitions;
+        return $this->competitions;
     }
 
-    public function addTypeCompetition(TypeCompetition $typeCompetition): self
+    public function addTypeCompetition(Competition $typeCompetition): self
     {
-        if (!$this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions[] = $typeCompetition;
+        if (!$this->competitions->contains($typeCompetition)) {
+            $this->competitions[] = $typeCompetition;
             $typeCompetition->setBlason($this);
         }
 
         return $this;
     }
 
-    public function removeTypeCompetition(TypeCompetition $typeCompetition): self
+    public function removeTypeCompetition(Competition $typeCompetition): self
     {
-        if ($this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions->removeElement($typeCompetition);
+        if ($this->competitions->contains($typeCompetition)) {
+            $this->competitions->removeElement($typeCompetition);
             // set the owning side to null (unless already changed)
             if ($typeCompetition->getBlason() === $this) {
                 $typeCompetition->setBlason(null);

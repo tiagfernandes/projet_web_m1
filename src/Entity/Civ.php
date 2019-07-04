@@ -24,9 +24,9 @@ class Civ
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\TypeCompetition", mappedBy="civ")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Competition", mappedBy="civ")
      */
-    private $typeCompetitions;
+    private $competitions;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="civ")
@@ -35,7 +35,7 @@ class Civ
 
     public function __construct()
     {
-        $this->typeCompetitions = new ArrayCollection();
+        $this->competitions = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -57,27 +57,27 @@ class Civ
     }
 
     /**
-     * @return Collection|TypeCompetition[]
+     * @return Collection|Competition[]
      */
-    public function getTypeCompetitions(): Collection
+    public function getCompetitions(): Collection
     {
-        return $this->typeCompetitions;
+        return $this->competitions;
     }
 
-    public function addTypeCompetition(TypeCompetition $typeCompetition): self
+    public function addTypeCompetition(Competition $typeCompetition): self
     {
-        if (!$this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions[] = $typeCompetition;
+        if (!$this->competitions->contains($typeCompetition)) {
+            $this->competitions[] = $typeCompetition;
             $typeCompetition->addCiv($this);
         }
 
         return $this;
     }
 
-    public function removeTypeCompetition(TypeCompetition $typeCompetition): self
+    public function removeTypeCompetition(Competition $typeCompetition): self
     {
-        if ($this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions->removeElement($typeCompetition);
+        if ($this->competitions->contains($typeCompetition)) {
+            $this->competitions->removeElement($typeCompetition);
             $typeCompetition->removeCiv($this);
         }
 

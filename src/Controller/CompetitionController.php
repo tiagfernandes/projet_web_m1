@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\JourCompetition;
+use App\Entity\Inscription;
 use App\Entity\Competition;
-use App\Form\CompetitionType;
+use App\Form\JourCompetitionType;
+use App\Repository\JourCompetitionRepository;
+use App\Repository\InscriptionRepository;
 use App\Repository\CompetitionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +21,60 @@ class CompetitionController extends AbstractController
 {
     /**
      * @Route("/", name="competition_index", methods={"GET"})
-     * @param CompetitionRepository $competitionRepository
+     * @param JourCompetitionRepository $jourCompetitionRepository
      * @return Response
      */
-    public function index(CompetitionRepository $competitionRepository): Response
+    public function index(JourCompetitionRepository $jourCompetitionRepository): Response
     {
         return $this->render('competition/index.html.twig', [
-            'competitions' => $competitionRepository->findAll(),
+            'jourCompetitions' => $jourCompetitionRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/registration/{id}", defaults={"id"=0})
+     * @param CompetitionRepository $competitionRepository
+     * @param Competition $typeCompetition
+     * @return Response
+     */
+    public function registration(CompetitionRepository $competitionRepository, Competition $typeCompetition = null)
+    {
+        if ($typeCompetition) {
+            $register = new Inscription();
+            $register->setTireur($this->getUser());
+            $register->setCompetition($typeCompetition);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($register);
+            $typeCompetition->addTireur($register);
+            $this->getUser()->addTypeCompetition($register);
+
+            dump($typeCompetition);
+            $em->persist($typeCompetition);
+            $em->flush();
+
+            return $this->redirectToRoute('app_competition_registed');
+        }
+
+        $competitionsEnable = $competitionRepository->findEnableByUser($this->getUser());
+
+        return $this->render('competition/registration.html.twig', [
+            'competitions' => $competitionsEnable,
+        ]);
+    }
+
+    /**
+     * @Route("/registed")
+     * @param CompetitionRepository $inscriptionRepository
+     * @return Response
+     */
+    public function registed(CompetitionRepository $inscriptionRepository)
+    {
+        $competitions = $inscriptionRepository->findByUser($this->getUser());
+
+        return $this->render('competition/registed.html.twig', [
+            'competitions' => $competitions,
         ]);
     }
 
@@ -34,16 +85,16 @@ class CompetitionController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $competition = new Competition();
-        $form = $this->createForm(CompetitionType::class, $competition);
+        $competition = new JourCompetition();
+        $form = $this->createForm(JourCompetitionType::class, $competition);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($competition);
-            foreach ($competition->getTypeCompetitions() as $typeCompetition){
-                $typeCompetition->setCompetition($competition);
+            foreach ($competition->getCompetitions() as $typeCompetition) {
+                $typeCompetition->setJourCompetition($competition);
                 $entityManager->persist($typeCompetition);
             }
 
@@ -60,10 +111,10 @@ class CompetitionController extends AbstractController
 
     /**
      * @Route("/{id}", name="competition_show", methods={"GET"})
-     * @param Competition $competition
+     * @param JourCompetition $competition
      * @return Response
      */
-    public function show(Competition $competition): Response
+    public function show(JourCompetition $competition): Response
     {
         return $this->render('competition/show.html.twig', [
             'competition' => $competition,
@@ -73,12 +124,12 @@ class CompetitionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="competition_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Competition $competition
+     * @param JourCompetition $competition
      * @return Response
      */
-    public function edit(Request $request, Competition $competition): Response
+    public function edit(Request $request, JourCompetition $competition): Response
     {
-        $form = $this->createForm(CompetitionType::class, $competition);
+        $form = $this->createForm(JourCompetitionType::class, $competition);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -98,12 +149,12 @@ class CompetitionController extends AbstractController
     /**
      * @Route("/{id}", name="competition_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Competition $competition
+     * @param JourCompetition $competition
      * @return Response
      */
-    public function delete(Request $request, Competition $competition): Response
+    public function delete(Request $request, JourCompetition $competition): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$competition->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $competition->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($competition);
             $entityManager->flush();
