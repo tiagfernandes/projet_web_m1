@@ -73,7 +73,6 @@ class Tireur extends User
 
 
         $this->setRoles(array('ROLE_TIREUR'));
-        $this->setCreatedAt(new \DateTime());
     }
 
     public function getBlason(): ?Blason

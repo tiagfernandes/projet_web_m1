@@ -9,6 +9,9 @@ use App\Form\JourCompetitionType;
 use App\Repository\JourCompetitionRepository;
 use App\Repository\InscriptionRepository;
 use App\Repository\CompetitionRepository;
+use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,37 +25,54 @@ class CompetitionController extends AbstractController
     /**
      * @Route("/", name="competition_index", methods={"GET"})
      * @param JourCompetitionRepository $jourCompetitionRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
-    public function index(JourCompetitionRepository $jourCompetitionRepository): Response
+    public function index(JourCompetitionRepository $jourCompetitionRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $jourCompetitions = $paginator->paginate(
+            $jourCompetitionRepository->findAllQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('competition/index.html.twig', [
-            'jourCompetitions' => $jourCompetitionRepository->findAll(),
+            'pagination' => $jourCompetitions,
         ]);
     }
 
     /**
      * @Route("/registration/{id}", defaults={"id"=0})
      * @param CompetitionRepository $competitionRepository
-     * @param Competition $typeCompetition
+     * @param Competition $competition
      * @return Response
      */
-    public function registration(CompetitionRepository $competitionRepository, Competition $typeCompetition = null)
+    public function registration(CompetitionRepository $competitionRepository, Competition $competition = null)
     {
-        if ($typeCompetition) {
+        if ($competition) {
+            if ($competitionRepository->competitionHasUser($competition, $this->getUser())) {
+                $this->addFlash('danger', 'Déjà inscrit pour cette compétition !');
+                return $this->redirectToRoute('app_competition_registration');
+            }
+
             $register = new Inscription();
             $register->setTireur($this->getUser());
-            $register->setCompetition($typeCompetition);
+            $register->setCompetition($competition);
 
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($register);
-            $typeCompetition->addTireur($register);
+            $competition->addTireur($register);
             $this->getUser()->addTypeCompetition($register);
 
-            dump($typeCompetition);
-            $em->persist($typeCompetition);
+            $em->persist($competition);
             $em->flush();
+
+            $this->addFlash('success', 'L\'inscription à la compétition à bien été prise en compte');
+
+            if ($competition->getBlason() != $this->getUser()->getBlason()) {
+                $this->addFlash('warning', 'Attention le ' . $competition->getBlason()->getGrade() . ' est requis !');
+            }
 
             return $this->redirectToRoute('app_competition_registed');
         }

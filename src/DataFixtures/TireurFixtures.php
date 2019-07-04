@@ -26,7 +26,7 @@ class TireurFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $tireur = new Tireur();
-        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Monsieur')));
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Homme')));
         $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $tireur->setEmail($faker->email);
         $tireur->setFirstName($faker->firstNameMale);
@@ -43,7 +43,7 @@ class TireurFixtures extends Fixture
         $manager->persist($tireur);
 
         $tireur = new Tireur();
-        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
         $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $tireur->setEmail($faker->email);
         $tireur->setFirstName($faker->firstNameMale);
@@ -60,14 +60,14 @@ class TireurFixtures extends Fixture
         $manager->persist($tireur);
 
         $tireur = new Tireur();
-        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
         $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $tireur->setEmail($faker->email);
         $tireur->setFirstName($faker->firstNameMale);
         $tireur->setLastName($faker->lastName);
         $tireur->setHandisport($faker->boolean);
         $tireur->setPhone($faker->phoneNumber);
-        $tireur->setUsername('tireur2');
+        $tireur->setUsername('tireur3');
         $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
         $tireur->setMainForte('Droite');
         $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Bleu')));
@@ -77,14 +77,14 @@ class TireurFixtures extends Fixture
         $manager->persist($tireur);
 
         $tireur = new Tireur();
-        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
         $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $tireur->setEmail($faker->email);
         $tireur->setFirstName($faker->firstNameMale);
         $tireur->setLastName($faker->lastName);
         $tireur->setHandisport($faker->boolean);
         $tireur->setPhone($faker->phoneNumber);
-        $tireur->setUsername('tireur2');
+        $tireur->setUsername('tireur3');
         $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
         $tireur->setMainForte('Droite');
         $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Jaune')));
@@ -94,14 +94,14 @@ class TireurFixtures extends Fixture
         $manager->persist($tireur);
 
         $tireur = new Tireur();
-        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
         $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $tireur->setEmail($faker->email);
         $tireur->setFirstName($faker->firstNameMale);
         $tireur->setLastName($faker->lastName);
         $tireur->setHandisport($faker->boolean);
         $tireur->setPhone($faker->phoneNumber);
-        $tireur->setUsername('tireur2');
+        $tireur->setUsername('tireur4');
         $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
         $tireur->setMainForte('Droite');
         $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Jaune')));
@@ -111,14 +111,14 @@ class TireurFixtures extends Fixture
         $manager->persist($tireur);
 
         $tireur = new Tireur();
-        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $tireur->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
         $tireur->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $tireur->setEmail($faker->email);
         $tireur->setFirstName($faker->firstNameMale);
         $tireur->setLastName($faker->lastName);
         $tireur->setHandisport($faker->boolean);
         $tireur->setPhone($faker->phoneNumber);
-        $tireur->setUsername('tireur2');
+        $tireur->setUsername('tireur5');
         $tireur->setArme($manager->getRepository(Arme::class)->findOneBy(array('name' => 'Epée')));
         $tireur->setMainForte('Droite');
         $tireur->setBlason($manager->getRepository(Blason::class)->findOneBy(array('grade' => 'Blason Rouge')));
@@ -128,5 +128,10 @@ class TireurFixtures extends Fixture
         $manager->persist($tireur);
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 6;
     }
 }

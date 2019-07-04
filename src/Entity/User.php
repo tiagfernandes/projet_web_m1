@@ -97,6 +97,7 @@ abstract class User implements UserInterface
 
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime());
         $this->objectifsCreated = new ArrayCollection();
     }
 

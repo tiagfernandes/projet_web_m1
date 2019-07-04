@@ -22,6 +22,10 @@ class JourCompetitionRepository extends ServiceEntityRepository
         parent::__construct($registry, JourCompetition::class);
     }
 
+    public function findAllQuery(){
+        return $this->createQueryBuilder('c')->getQuery();
+    }
+
     public function findEnableByUser(Tireur $user)
     {
         return $this->createQueryBuilder('c')
