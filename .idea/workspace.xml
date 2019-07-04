@@ -33,7 +33,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/ObjectifController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="748">
+              <caret line="44" column="47" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
               <folding>
                 <element signature="e#34#58#0#PHP" expanded="true" />
               </folding>
@@ -238,7 +239,7 @@
       <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="21" />
     <option name="y" value="-10" />
     <option name="width" value="1932" />
@@ -263,41 +264,65 @@
             <path>
               <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
               <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
               <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
               <item name="config" type="462c0819:PsiDirectoryNode" />
               <item name="packages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
+=======
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
+>>>>>>> Stashed changes
             </path>
             <path>
               <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
               <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
+=======
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+>>>>>>> Stashed changes
+            </path>
+            <path>
+              <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+>>>>>>> Stashed changes
+            </path>
+            <path>
+              <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+>>>>>>> Stashed changes
             </path>
             <path>
               <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
               <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
+=======
+              <item name="DataFixtures" type="462c0819:PsiDirectoryNode" />
+>>>>>>> Stashed changes
             </path>
             <path>
               <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
               <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
               <item name="Controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -310,6 +335,8 @@
               <item name="projet_web_m1" type="b2602c69:ProjectViewProjectNode" />
               <item name="projet_web_m1" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+=======
+>>>>>>> Stashed changes
               <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -392,12 +419,20 @@
       <workItem from="1562070044136" duration="2708000" />
       <workItem from="1562072765876" duration="24433000" />
       <workItem from="1562169589614" duration="63000" />
+<<<<<<< Updated upstream
       <workItem from="1562223836915" duration="599000" />
+=======
+      <workItem from="1562223836915" duration="1225000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< Updated upstream
     <option name="totallyTimeSpent" value="42516000" />
+=======
+    <option name="totallyTimeSpent" value="43142000" />
+>>>>>>> Stashed changes
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -411,7 +446,11 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
+<<<<<<< Updated upstream
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19722815" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19722815" />
+>>>>>>> Stashed changes
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -424,7 +463,11 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
+<<<<<<< Updated upstream
       <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.11700975" />
+=======
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.11700975" />
+>>>>>>> Stashed changes
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -845,7 +888,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/ObjectifController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="748">
+          <caret line="44" column="47" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
           <folding>
             <element signature="e#34#58#0#PHP" expanded="true" />
           </folding>
