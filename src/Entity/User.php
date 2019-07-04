@@ -92,7 +92,8 @@ abstract class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Objectif", mappedBy="createdBy")
      */
-    private $objectifsCreated;
+    private $objectifs;
+
 
     public function __construct()
     {
@@ -304,4 +305,21 @@ abstract class User implements UserInterface
     {
         $this->rawPassword = $rawPassword;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getObjectifs()
+    {
+        return $this->objectifs;
+    }
+
+    /**
+     * @param mixed $objectifs
+     */
+    public function setObjectifs($objectifs): void
+    {
+        $this->objectifs = $objectifs;
+    }
+
 }

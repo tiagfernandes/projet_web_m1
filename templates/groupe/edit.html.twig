@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Groupe{% endblock %}
+
+{% block body %}
+    <h1>Edit Groupe</h1>
+
+    {{ include('groupe/_form.html.twig', {'button_label ': 'Update'}) }}
+
+    <a class="btn btn-primary" href="{{ path('groupe_index') }}">back to list</a>
+
+{% endblock %}
