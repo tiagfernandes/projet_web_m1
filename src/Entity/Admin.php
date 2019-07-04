@@ -13,38 +13,38 @@ class Admin extends User
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TypeCompetition", mappedBy="createdBy")
+     * @ORM\OneToMany(targetEntity="App\Entity\Competition", mappedBy="createdBy")
      */
-    private $typeCompetitions;
+    private $competitions;
 
     public function __construct()
     {
         parent::__construct();
-        $this->typeCompetitions = new ArrayCollection();
+        $this->competitions = new ArrayCollection();
     }
 
     /**
-     * @return Collection|TypeCompetition[]
+     * @return Collection|Competition[]
      */
-    public function getTypeCompetitions(): Collection
+    public function getCompetitions(): Collection
     {
-        return $this->typeCompetitions;
+        return $this->competitions;
     }
 
-    public function addTypeCompetition(TypeCompetition $typeCompetition): self
+    public function addTypeCompetition(Competition $typeCompetition): self
     {
-        if (!$this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions[] = $typeCompetition;
+        if (!$this->competitions->contains($typeCompetition)) {
+            $this->competitions[] = $typeCompetition;
             $typeCompetition->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeTypeCompetition(TypeCompetition $typeCompetition): self
+    public function removeTypeCompetition(Competition $typeCompetition): self
     {
-        if ($this->typeCompetitions->contains($typeCompetition)) {
-            $this->typeCompetitions->removeElement($typeCompetition);
+        if ($this->competitions->contains($typeCompetition)) {
+            $this->competitions->removeElement($typeCompetition);
             // set the owning side to null (unless already changed)
             if ($typeCompetition->getCreatedBy() === $this) {
                 $typeCompetition->setCreatedBy(null);

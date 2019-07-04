@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MaitreArmes{% endblock %}
+
+{% block body %}
+    <h1>MaitreArmes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ maitre_arme.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ maitre_arme.lastName }}</td>
+            </tr>
+            <tr>
+                <th>DtBirthday</th>
+                <td>{{ maitre_arme.dtBirthday ? maitre_arme.dtBirthday|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ maitre_arme.email }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ maitre_arme.phone }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ maitre_arme.createdAt ? maitre_arme.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ maitre_arme.username }}</td>
+            </tr>
+            <tr>
+                <th>Handisport</th>
+                <td>{{ maitre_arme.handisport ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsDelete</th>
+                <td>{{ maitre_arme.isDelete ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('maitre_armes_index') }}">back to list</a>
+
+    <a href="{{ path('maitre_armes_edit', {'id': maitre_arme.id}) }}">edit</a>
+
+    {{ include('maitre_armes/_delete_form.html.twig') }}
+{% endblock %}
