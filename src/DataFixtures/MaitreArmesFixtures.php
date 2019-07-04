@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class MaitreArmesFixtures extends Fixture
 {
     private $encoder;
-    
+
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -28,7 +28,7 @@ class MaitreArmesFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $maitre = new MaitreArmes();
-        $maitre->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Monsieur')));
+        $maitre->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Homme')));
         $maitre->setDtBirthday($faker->dateTimeBetween($startDate = '-60 years', $endDate = '-20 years', $timezone = null));
         $maitre->setEmail($faker->email);
         $maitre->setFirstName($faker->firstNameMale);
@@ -41,7 +41,7 @@ class MaitreArmesFixtures extends Fixture
         $manager->persist($maitre);
 
         $maitre = new MaitreArmes();
-        $maitre->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Madame')));
+        $maitre->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
         $maitre->setDtBirthday($faker->dateTimeBetween($startDate = '-60 years', $endDate = '-20 years', $timezone = null));
         $maitre->setEmail($faker->email);
         $maitre->setFirstName($faker->firstNameMale);
@@ -54,5 +54,10 @@ class MaitreArmesFixtures extends Fixture
         $manager->persist($maitre);
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 7;
     }
 }

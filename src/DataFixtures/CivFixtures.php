@@ -11,10 +11,10 @@ class CivFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $Civ1 = new Civ();
-        $Civ1->setName('Monsieur');
+        $Civ1->setName('Homme');
 
         $Civ2 = new Civ();
-        $Civ2->setName('Madame');
+        $Civ2->setName('Femme');
 
         $Civ3 = new Civ();
         $Civ3->setName('Non Binaire');
@@ -24,5 +24,10 @@ class CivFixtures extends Fixture
         $manager->persist($Civ3);
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 4;
     }
 }

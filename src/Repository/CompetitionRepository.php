@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Tireur;
 use App\Entity\Competition;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -29,22 +30,12 @@ class CompetitionRepository extends ServiceEntityRepository
             ->setParameter('civ', $user->getCiv())
             ->andWhere('c.arme = :arme')
             ->setParameter('arme', $user->getArme())
-            ->join('c.inscription', 'inscription')
-            ->andWhere('inscription.tireur != :user')
-            ->setParameter('user', $user)
-//            ->andWhere('c.dateTimeStart > :now')
-//            ->setParameter('now', new \DateTime())
-//            ->andWhere(':user NOT MEMBER OF tc.tireurs')
+//            ->leftJoin('c.inscription', 'inscription')
+//            ->andWhere('inscription.tireur <> :user')
 //            ->setParameter('user', $user)
-//            ->andWhere('tc.arme = :arme')
-//            ->setParameter('arme', $user->getArme())
-//            ->andWhere(':civ MEMBER OF tc.civ')
-//            ->setParameter('civ', $user->geiiv())
-//            ->andWhere('tc.categorie = :categorie')
-//            ->setParameter('categorie', $user->getCategorieAge($this->getEntityManager()))
-            ->getQuery();
+        ;
 
-        return $qb->getResult();
+        return $qb->getQuery()->getResult();
     }
 
     public function findByUser(Tireur $user)
@@ -56,6 +47,20 @@ class CompetitionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    public function competitionHasUser(Competition $competition, User $user)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c = :competition')
+            ->setParameter('competition', $competition)
+            ->join('c.inscription', 'inscription')
+            ->andWhere('inscription.tireur = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 
     // /**
     //  * @return Competition[] Returns an array of Competition objects

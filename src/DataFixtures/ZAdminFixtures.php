@@ -27,13 +27,16 @@ class ZAdminFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $admin = new Admin();
-        $admin->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Monsieur')));
+
+        $admin->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Homme')));
+
         $admin->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $admin->setEmail($faker->email);
         $admin->setFirstName($faker->firstNameMale);
         $admin->setLastName($faker->lastName);
         $admin->setHandisport($faker->boolean);
         $admin->setPhone($faker->phoneNumber);
+
         $admin->setUsername('admin');
         $admin->setPassword($this->encoder->encodePassword($admin, 'test'));
         $admin->setCreatedAt(new \DateTime());
@@ -41,5 +44,33 @@ class ZAdminFixtures extends Fixture
         $manager->persist($admin);
 
         $manager->flush();
+
+        $admin->setRoles(array('ROLE_ADMIN'));
+        $admin->setUsername('admin1');
+        $admin->setPassword($this->encoder->encodePassword($admin, 'test'));
+
+        $manager->persist($admin);
+
+        $admin2 = new Admin();
+        $admin2->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Femme')));
+        $admin2->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
+        $admin2->setEmail($faker->email);
+        $admin2->setFirstName($faker->firstNameMale);
+        $admin2->setLastName($faker->lastName);
+        $admin2->setHandisport($faker->boolean);
+        $admin2->setPhone($faker->phoneNumber);
+        $admin2->setRoles(array('ROLE_ADMIN'));
+        $admin2->setUsername('admin2');
+        $admin2->setPassword($this->encoder->encodePassword($admin2, 'test'));
+
+        $manager->persist($admin2);
+
+        $manager->flush();
     }
+
+    public function getOrder()
+    {
+        return 8;
+    }
+
 }
