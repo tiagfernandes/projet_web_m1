@@ -20,7 +20,7 @@ class ObjectifType extends AbstractType
             ->add('descriptif')
             ->add('atteint')
             ->add('tireur')
-            ->add('createdBy');
+            ->remove('createdBy');
 
     }
 

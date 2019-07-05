@@ -133,7 +133,7 @@ class Objectif
 
         return $this;
     }
-        public function __toString()
+    public function __toString()
     {
 
         return $this->getDescriptif();

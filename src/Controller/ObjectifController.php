@@ -40,7 +40,7 @@ class ObjectifController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+            $objectif->setCreatedBy($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($objectif);
 

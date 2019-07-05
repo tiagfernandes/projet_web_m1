@@ -306,7 +306,6 @@ class Tireur extends User
 
     public function __toString()
     {
-       
         return $this->getFirstName();
     }
 
