@@ -262,12 +262,26 @@ class EntrainementController extends AbstractController
      * @return RedirectResponse
      * @throws \Exception
      */
-    public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence)
+    public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence, Request $request    )
     {
 
         $today = new \DateTime();
 
-        if ($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd() || $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
+        if ($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd()) {
+
+            foreach ($tireur->getEntrainementTireurs() as $entrainementTireur) {
+                if ($entrainementTireur->getEntrainement() === $entrainement) {
+                    $entrainementTireur->setPresent($presence);
+                }
+            }
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_entrainement_showmembers', array(
+                'id' => $entrainement->getId()
+            ));
+
+        } else if ($this->getUser() && $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
 
             foreach ($tireur->getEntrainementTireurs() as $entrainementTireur) {
                 if ($entrainementTireur->getEntrainement() === $entrainement) {
@@ -282,7 +296,9 @@ class EntrainementController extends AbstractController
             ));
         }
 
-        return $this->redirectToRoute('app_security_login');
+        $this->addFlash('danger', 'Ce cours n\'a pas encore commencé');
+
+        return $this->redirect($request->headers->get('referer'));
 
     }
 
