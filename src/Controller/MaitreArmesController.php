@@ -9,12 +9,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/maitre-armes")
  */
 class MaitreArmesController extends AbstractController
 {
+    private $encoder;
+
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
     /**
      * @Route("/", name="maitre_armes_index", methods={"GET"})
      * @param MaitreArmesRepository $maitreArmesRepository
@@ -39,6 +47,8 @@ class MaitreArmesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $maitreArme->setPassword($maitreArme->getRawPassword());
+            $maitreArme->setPassword($this->encoder->encodePassword($maitreArme, $maitreArme->getPassword()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($maitreArme);
             $entityManager->flush();
@@ -76,8 +86,9 @@ class MaitreArmesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $maitreArme->setPassword($maitreArme->getRawPassword());
+            $maitreArme->setPassword($this->encoder->encodePassword($maitreArme, $maitreArme->getPassword()));
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('maitre_armes_index', [
                 'id' => $maitreArme->getId(),
             ]);

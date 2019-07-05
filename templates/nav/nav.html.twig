@@ -70,7 +70,8 @@
                         <ul>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li>
-                                    <a href="{{ path('app_entrainement_newyear') }}">Ajouter un entraînement au planning</a>
+                                    <a href="{{ path('app_entrainement_newyear') }}">Ajouter un entraînement au
+                                        planning</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('app_entrainement_new') }}">Ajouter un entraînement</a>
@@ -107,24 +108,61 @@
                         </ul>
                     </div>
                 </li>
-                <li class="sidebar-dropdown">
-                    <a href="#">
-                        <i class="fas fa-users"></i>
-                        <span>Groupe</span>
-                    </a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li>
-                                <a href="{{ path('groupe_index') }}">Liste des groupes</a>
-                            </li>
-                            {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-users"></i>
+                            <span>Groupe</span>
+                        </a>
+
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <a href="{{ path('groupe_index') }}">Liste des groupes</a>
+                                </li>
                                 <li>
                                     <a href="{{ path('groupe_new') }}">Ajouter un groupe</a>
                                 </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_MAITRE') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-users"></i>
+                            <span>Groupe</span>
+                        </a>
+
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <a href="{{ path('groupe_index') }}">Liste des groupes</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Maîtres d'armes</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+
+                                <li>
+                                    <a href="{{ path('maitre_armes_index') }}">Liste des maîtres d'armes</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('maitre_armes_new') }}">Ajouter un maître d'armes</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
                 <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="far fa-check-square"></i>
@@ -141,6 +179,27 @@
                         </ul>
                     </div>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Tireurs</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+
+                                <li>
+                                    <a href="{{ path('tireur_index') }}">Liste des tireurs</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('tireur_new') }}">Ajouter un tireur</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
         <!-- sidebar-menu  -->
