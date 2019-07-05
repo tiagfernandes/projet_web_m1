@@ -33,7 +33,7 @@ class LeconController extends AbstractController
             $lecons = $leconRepository->findBy(
                 ['tireur' => $this->getUser()]
             );
-        } else if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+        } else if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN' || $this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
             $lecons = $leconRepository->findBy(
                 ['present' => true]
             );
@@ -68,6 +68,8 @@ class LeconController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($lecon);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Leçon ajoutée');
 
             return $this->redirectToRoute('app_lecon_index');
         }
@@ -107,6 +109,8 @@ class LeconController extends AbstractController
             }
 
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Leçon modifiée');
 
             return $this->redirectToRoute('app_lecon_index', [
                 'id' => $lecon->getId(),

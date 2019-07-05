@@ -3,9 +3,10 @@
 {% block title %}New Objectif{% endblock %}
 
 {% block body %}
-    <h1>Create new Objectif</h1>
+    <h1>Création d'un objectif</h1>
 
     {{ include('objectif/_form.html.twig') }}
-
-    <a class="btn btn-primary" href="{{ path('objectif_index') }}">back to list</a>
+    <div style="text-align: right">
+        <a class="btn btn-primary" href="{{ path('objectif_index') }}">retour à la liste</a>
+    </div>
 {% endblock %}

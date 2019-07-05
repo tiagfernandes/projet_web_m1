@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Tireur{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un Tireur</h1>
+
+    {{ include('tireur/_form.html.twig') }}
+
+    <a class="btn btn-primary mt-2" href="{{ path('tireur_index') }}">retour à la liste</a>
+{% endblock %}

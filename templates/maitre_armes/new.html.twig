@@ -3,9 +3,9 @@
 {% block title %}New MaitreArmes{% endblock %}
 
 {% block body %}
-    <h1>Create new MaitreArmes</h1>
+    <h1>Ajouter un  Maitre d'Armes</h1>
 
     {{ include('maitre_armes/_form.html.twig') }}
 
-    <a href="{{ path('maitre_armes_index') }}">back to list</a>
+    <a class="btn btn-primary mt-3" href="{{ path('maitre_armes_index') }}">retour à la liste</a>
 {% endblock %}

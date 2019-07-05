@@ -54,4 +54,9 @@ class Admin extends User
 
         return $this;
     }
+    public function __toString()
+    {
+
+    return (string) $this->getId();
+    }
 }

@@ -1,18 +1,18 @@
 {{ form_start(form) }}
     {{ form_row(form.descriptif) }}
-    {{ form_row(form.atteint) }}
+
+        {{ form_row(form.atteint) }}
     {{ form_row(form.tireur) }}
-    {{ form_row(form.createdBy) }}
 
 <div id="commentaires-fields-list"
      data-prototype="{{ form_widget(form.commentaires.vars.prototype)|e}}"
      data-widget-tags="{{ '<div class="card-body"></div>'|e }}"
      data-widget-counter="{{ form.children|length }}">
     {% for Commentaire in form.commentaires %}
-        <div class="card">
-            <div class="card-body">
-                {{ form_errors(Commentaire) }}
-                {{ form_row(Commentaire) }}
+        <div class="card mb-3">
+            <div class="card-body ">
+                {{ form_errors(Commentaire.commentaire) }}
+                {{ form_row(Commentaire.commentaire) }}
             </div>
         </div>
     {% endfor %}
@@ -24,7 +24,7 @@
         data-list-selector="#commentaires-fields-list">Ajouter un nouveau commentaire
 </button>
 <br><br>
-<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+<button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 <br>
 
@@ -48,5 +48,11 @@
             var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
             newElem.appendTo(list);
         });
+
+        {% if app.user.id != objectif.createdBy.id %}
+        const atteind = document.getElementById('edit_objectif_atteint');
+        atteind.disabled= true;
+        {% endif %}
+
     });
 </script>

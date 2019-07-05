@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+    {{ form_row(form.civ) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.dtBirthday) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.rawPassword) }}
+    {{ form_row(form.handisport) }}
+    {{ form_row(form.mainForte) }}
+    {{ form_row(form.blason) }}
+    {{ form_row(form.arme) }}
+    {{ form_row(form.groupe) }}
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

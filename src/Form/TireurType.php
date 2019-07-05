@@ -2,15 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\MaitreArmes;
+use App\Entity\Tireur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MaitreArmesType extends AbstractType
+class TireurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,22 +23,29 @@ class MaitreArmesType extends AbstractType
             ])
             ->add('email')
             ->add('phone')
-            ->remove('createdAt', DateType::class)
+            ->remove('createdAt')
             ->add('username')
             ->add('rawPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => false,
                 'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'PasswordBis'],
+                'second_options' => ['label' => 'PasswordBis']
             ])
+            ->remove('roles')
             ->add('handisport')
+            ->remove('isDelete')
+            ->add('mainForte')
+            ->add('blason')
+            ->add('arme')
+            ->remove('arbitre')
+            ->add('groupe')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => MaitreArmes::class,
+            'data_class' => Tireur::class,
         ]);
     }
 }

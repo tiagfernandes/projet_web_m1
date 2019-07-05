@@ -3,20 +3,20 @@
 {% block title %}MaitreArmes{% endblock %}
 
 {% block body %}
-    <h1>MaitreArmes</h1>
+    <h1>Maitre d'Armes</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>FirstName</th>
+                <th>Prénom</th>
                 <td>{{ maitre_arme.firstName }}</td>
             </tr>
             <tr>
-                <th>LastName</th>
+                <th>Nom</th>
                 <td>{{ maitre_arme.lastName }}</td>
             </tr>
             <tr>
-                <th>DtBirthday</th>
+                <th>Date de naissance</th>
                 <td>{{ maitre_arme.dtBirthday ? maitre_arme.dtBirthday|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
@@ -24,31 +24,27 @@
                 <td>{{ maitre_arme.email }}</td>
             </tr>
             <tr>
-                <th>Phone</th>
+                <th>Téléphone</th>
                 <td>{{ maitre_arme.phone }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
+                <th>Crée le</th>
                 <td>{{ maitre_arme.createdAt ? maitre_arme.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Username</th>
+                <th>Identifiant</th>
                 <td>{{ maitre_arme.username }}</td>
             </tr>
             <tr>
                 <th>Handisport</th>
-                <td>{{ maitre_arme.handisport ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>IsDelete</th>
-                <td>{{ maitre_arme.isDelete ? 'Yes' : 'No' }}</td>
+                <td>{{ maitre_arme.handisport ? 'Oui' : 'Non' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('maitre_armes_index') }}">back to list</a>
+    <a class="btn btn-primary mb-1" href="{{ path('maitre_armes_index') }}">retour à la liste</a>
 
-    <a href="{{ path('maitre_armes_edit', {'id': maitre_arme.id}) }}">edit</a>
+    <a class="btn btn-info" href="{{ path('maitre_armes_edit', {'id': maitre_arme.id}) }}"><i class="far fa-edit"></i></a>
 
     {{ include('maitre_armes/_delete_form.html.twig') }}
 {% endblock %}

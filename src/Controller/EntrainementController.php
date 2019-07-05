@@ -10,6 +10,7 @@ use App\Form\EntrainementYearType;
 use App\Repository\EntrainementRepository;
 use App\Repository\TireurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Component\Pager\PaginatorInterface;
 use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,10 +29,16 @@ class EntrainementController extends AbstractController
      * @param EntrainementRepository $entrainementRepository
      * @return Response
      */
-    public function index(EntrainementRepository $entrainementRepository): Response
+    public function index(EntrainementRepository $entrainementRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $entrainements = $paginator->paginate(
+        $entrainementRepository->findAllByDate(),
+        $request->query->getInt('page', 1),
+        10
+    );
+
         return $this->render('entrainement/index.html.twig', [
-            'entrainements' => $entrainementRepository->findAllByDate(),
+            'entrainements' => $entrainements
         ]);
     }
 
@@ -64,13 +71,22 @@ class EntrainementController extends AbstractController
      * @param EntrainementRepository $repository
      * @return Response
      */
-    public function mesEntrainements(EntrainementRepository $repository)
-    {
+    public function mesEntrainements(EntrainementRepository $repository, PaginatorInterface $paginator, Request $request) {
 
-        if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
-            $entrainements = $repository->findAll();
+
+        if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN' || $this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $entrainements = $paginator->paginate(
+                $repository->findDone(),
+                $request->query->getInt('page', 1),
+                10
+            );
+
         } else {
-            $entrainements = $repository->findMine($this->getUser());
+            $entrainements = $paginator->paginate(
+                $repository->findMine($this->getUser()),
+                $request->query->getInt('page', 1),
+                10
+            );
         }
 
         return $this->render('entrainement/index.html.twig', array(
@@ -120,6 +136,8 @@ class EntrainementController extends AbstractController
             }
 
             $entityManager->flush();
+
+            $this->addFlash('success', 'Entraînement ajouté');
 
             return $this->redirectToRoute('app_entrainement_index');
         }
@@ -186,6 +204,8 @@ class EntrainementController extends AbstractController
                     $entityManager->flush();
                 }
             }
+
+            $this->addFlash('success', 'Les entraînements ont bien été ajoutés au planning');
 
             return $this->redirectToRoute('app_entrainement_index');
         }
@@ -274,6 +294,8 @@ class EntrainementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Entraînement modifié');
+
             return $this->redirectToRoute('app_entrainement_index', [
                 'id' => $entrainement->getId(),
             ]);
@@ -305,6 +327,8 @@ class EntrainementController extends AbstractController
         $em->remove($entrainement);
 
         $em->flush();
+
+        $this->addFlash('success', 'Entraînement supprimé');
 
         return $this->redirectToRoute('app_entrainement_index');
 

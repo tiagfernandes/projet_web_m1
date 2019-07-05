@@ -3,9 +3,9 @@
 {% block title %}Entraînements{% endblock %}
 
 {% block body %}
-<h1>Entraînements</h1>
+    <h1>Entraînements</h1>
 
-{% set token = csrf_token('delete_entrainement') %}
+    {% set token = csrf_token('delete_entrainement') %}
 
     {% if is_granted('ROLE_ADMIN') %}
         <a class="btn btn-outline-primary mb-2" href="{{ path('app_entrainement_new') }}">Ajouter un nouvel
@@ -15,59 +15,69 @@
     {% endif %}
 
     {% if app.request.attributes.get('_route') == 'app_entrainement_mesentrainements' %}
-        <a class="btn btn-outline-primary mb-2" href="{{ path('app_lecon_index') }}">Mes leçons</a>
+        <a class="btn btn-outline-primary mb-2" href="{{ path('app_lecon_index') }}">
+            {% if is_granted('ROLE_ADMIN') %}
+                Toutes les leçons
+            {% else %}
+                Mes leçons
+            {% endif %}
+        </a>
     {% endif %}
 
-<table class="table">
-    <thead>
-    <tr>
-        {#<th>id</th>#}
-        <th>Début</th>
-        <th>Fin</th>
-        <th>Groupes</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for entrainement in entrainements %}
-    <tr>
-        {#<td>{{ entrainement.id }}</td>#}
-        <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
-        <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
-        <td>
-            <ul>
-                {% for groupe in entrainement.groupes %}
-                    <li>{{ groupe.name }}</li>
-                {% else %}
-                    Il n'y a pas de groupes pour cet entraînement.
-                {% endfor %}
-            </ul>
-        </td>
-        <td>
-            <a class="text-primary"
-               href="{{ path('app_entrainement_show', {'id': entrainement.id}) }}"><i
-                        class="fas fa-eye"></i></a>
-            {% if is_granted('ROLE_ADMIN') %}
-                <a class="text-info"
-                   href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}"><i
-                            class="far fa-edit"></i></a>
-                <a class="text-danger"
-                   href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}"><i
-                            class="fas fa-trash-alt"></i></a>
-            {% endif %}
-
-            <br>
-            {% if app.request.attributes.get('_route') == 'app_entrainement_mesentrainements' %}
-                <a href="{{ path('app_lecon_new', {'idEntrainement': entrainement.id}) }}">Ajouter une leçon</a>
-            {% endif %}
-        </td>
-    </tr>
-    {% else %}
+    <table class="table">
+        <thead>
         <tr>
-            <td colspan="4">Il n'y a pas d'entraînements pour le moment.</td>
+            {#<th>id</th>#}
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Groupes</th>
+            <th></th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for entrainement in entrainements %}
+            <tr>
+                {#<td>{{ entrainement.id }}</td>#}
+                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('H:i d-m-Y') : '' }}</td>
+                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('H:i d-m-Y') : '' }}</td>
+                <td>
+                    <ul>
+                        {% for groupe in entrainement.groupes %}
+                            <li>{{ groupe.name }}</li>
+                        {% else %}
+                            Il n'y a pas de groupes pour cet entraînement.
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a class="text-primary"
+                       href="{{ path('app_entrainement_show', {'id': entrainement.id}) }}"><i
+                                class="fas fa-eye"></i></a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="text-info"
+                           href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}"><i
+                                    class="far fa-edit"></i></a>
+                        <a class="text-danger"
+                           href="{{ path('app_entrainement_delete', {'id': entrainement.id, 'token': token}) }}"><i
+                                    class="fas fa-trash-alt"></i></a>
+                    {% endif %}
+
+                    <br>
+                    {% if app.request.attributes.get('_route') == 'app_entrainement_mesentrainements' %}
+                        <a href="{{ path('app_lecon_new', {'idEntrainement': entrainement.id}) }}">Ajouter une leçon</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Il n'y a pas d'entraînements pour le moment.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(entrainements) }}
+    </div>
 
 {% endblock %}
