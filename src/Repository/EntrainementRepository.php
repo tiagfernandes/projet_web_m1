@@ -74,10 +74,19 @@ class EntrainementRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findMine($user) {
+    public function findMineWherePresent($user) {
         return $this->createQueryBuilder('entrainement')
             ->join('entrainement.entrainementTireurs', 'et')
             ->andWhere('et.present = true')
+            ->andWhere('et.tireur = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMine($user) {
+        return $this->createQueryBuilder('entrainement')
+            ->join('entrainement.entrainementTireurs', 'et')
             ->andWhere('et.tireur = :user')
             ->setParameter('user', $user)
             ->getQuery()
