@@ -15,7 +15,13 @@
     {% endif %}
 
     {% if app.request.attributes.get('_route') == 'app_entrainement_mesentrainements' %}
-        <a class="btn btn-outline-primary mb-2" href="{{ path('app_lecon_index') }}">Mes leçons</a>
+        <a class="btn btn-outline-primary mb-2" href="{{ path('app_lecon_index') }}">
+            {% if is_granted('ROLE_ADMIN') %}
+                Toutes les leçons
+            {% else %}
+                Mes leçons
+            {% endif %}
+        </a>
     {% endif %}
 
     <table class="table">

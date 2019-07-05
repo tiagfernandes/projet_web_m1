@@ -100,11 +100,22 @@ class CompetitionController extends AbstractController
      */
     public function registed(CompetitionRepository $inscriptionRepository, PaginatorInterface $paginator, Request $request)
     {
-        $competitions = $paginator->paginate(
-            $inscriptionRepository->findByUser($this->getUser()),
-            $request->query->getInt('page', 1),
-            10
-        );
+
+        if ($this->getUser()->getRoles()[0] === "ROLE_USER") {
+            $competitions = $paginator->paginate(
+                $inscriptionRepository->findByUser($this->getUser()),
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+        if ($this->getUser()->getRoles()[0] === "ROLE_ADMIN") {
+            $competitions = $paginator->paginate(
+                $inscriptionRepository->findAllWithUser(),
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+
         return $this->render('competition/registed.html.twig', [
             'pagination' => $competitions,
         ]);

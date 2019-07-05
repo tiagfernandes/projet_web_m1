@@ -44,7 +44,7 @@ class EntrainementController extends AbstractController
     public function mesEntrainements(EntrainementRepository $repository, PaginatorInterface $paginator, Request $request) {
 
 
-        if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN') {
+        if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN' || $this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
             $entrainements = $paginator->paginate(
                 $repository->findDone(),
                 $request->query->getInt('page', 1),
@@ -52,7 +52,11 @@ class EntrainementController extends AbstractController
             );
 
         } else {
-            $entrainements = $repository->findMine($this->getUser());
+            $entrainements = $paginator->paginate(
+                $repository->findMine($this->getUser()),
+                $request->query->getInt('page', 1),
+                10
+            );
         }
 
         return $this->render('entrainement/index.html.twig', array(
@@ -98,6 +102,8 @@ class EntrainementController extends AbstractController
             }
 
             $entityManager->flush();
+
+            $this->addFlash('success', 'Entraînement ajouté');
 
             return $this->redirectToRoute('app_entrainement_index');
         }
@@ -162,6 +168,8 @@ class EntrainementController extends AbstractController
                     $entityManager->flush();
                 }
             }
+
+            $this->addFlash('success', 'Les entraînements ont bien été ajoutés au planning');
 
             return $this->redirectToRoute('app_entrainement_index');
         }
@@ -238,6 +246,8 @@ class EntrainementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Entraînement modifié');
+
             return $this->redirectToRoute('app_entrainement_index', [
                 'id' => $entrainement->getId(),
             ]);
@@ -266,6 +276,8 @@ class EntrainementController extends AbstractController
         $em->remove($entrainement);
 
         $em->flush();
+
+        $this->addFlash('success', 'Entraînement supprimé');
 
         return $this->redirectToRoute('app_entrainement_index');
 

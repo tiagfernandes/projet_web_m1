@@ -17,6 +17,7 @@ security:
             form_login:
                 login_path: app_security_login
                 check_path: app_security_login
+                default_target_path: app_entrainement_today
             logout:
                 path: /logout
                 target: app_security_login

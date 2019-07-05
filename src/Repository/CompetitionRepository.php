@@ -47,6 +47,15 @@ class CompetitionRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    public function findAllWithUser()
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.inscription', 'inscription')
+            ->andWhere('inscription.tireur != :user')
+            ->setParameter('user', null)
+            ->getQuery();
+    }
+
 
     public function competitionHasUser(Competition $competition, User $user)
     {
@@ -59,6 +68,7 @@ class CompetitionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
 
 
     // /**

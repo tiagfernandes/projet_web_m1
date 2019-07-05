@@ -33,7 +33,13 @@
     </table>
 
     <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">Tous les entrainements</a>
-    <a class="btn btn-primary" href="{{ path('app_entrainement_mesentrainements') }}">Mes entrainements finis</a>
+    <a class="btn btn-primary" href="{{ path('app_entrainement_mesentrainements') }}">
+        {% if is_granted('ROLE_ADMIN') %}
+            Les entrainements finis
+        {% else %}
+            Mes entrainements finis
+        {% endif %}
+    </a>
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
 
