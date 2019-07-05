@@ -22,6 +22,7 @@ class Entrainement
 
     /**
      * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual("today")
      * @ORM\Column(type="datetime")
      */
     private $dateTimeStart;

@@ -17,10 +17,11 @@ class EntrainementType extends AbstractType
     {
         $builder
             ->add('dateTimeStart', DateTimeType::class, array(
-                'data' => new DateTime()
+                'data' => new DateTime(),
             ))
             ->add('dateTimeEnd', DateTimeType::class, array(
-                'data' => new DateTime()
+                'data' => new DateTime(),
+
             ))
             ->add('groupes', EntityType::class, array(
                 'class' => Groupe::class,

@@ -10,6 +10,7 @@ use App\Form\EntrainementYearType;
 use App\Repository\EntrainementRepository;
 use App\Repository\TireurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Knp\Component\Pager\PaginatorInterface;
 use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,20 +25,32 @@ class EntrainementController extends AbstractController
     /**
      * @Route("/", methods={"GET"})
      */
-    public function index(EntrainementRepository $entrainementRepository): Response
+    public function index(EntrainementRepository $entrainementRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $entrainements = $paginator->paginate(
+        $entrainementRepository->findAllByDate(),
+        $request->query->getInt('page', 1),
+        10
+    );
+
         return $this->render('entrainement/index.html.twig', [
-            'entrainements' => $entrainementRepository->findAllByDate(),
+            'entrainements' => $entrainements
         ]);
     }
 
     /**
      * @Route("/done")
      */
-    public function mesEntrainements(EntrainementRepository $repository) {
+    public function mesEntrainements(EntrainementRepository $repository, PaginatorInterface $paginator, Request $request) {
+
 
         if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN') {
-            $entrainements = $repository->findDone();
+            $entrainements = $paginator->paginate(
+                $repository->findDone(),
+                $request->query->getInt('page', 1),
+                10
+            );
+
         } else {
             $entrainements = $repository->findMine($this->getUser());
         }

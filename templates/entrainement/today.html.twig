@@ -28,8 +28,8 @@
         {% for entrainement in entrainements %}
             <tr>
                 {#<td>{{ entrainement.id }}</td>#}
-                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ entrainement.dateTimeStart ? entrainement.dateTimeStart|date('H:i d-m-Y') : '' }}</td>
+                <td>{{ entrainement.dateTimeEnd ? entrainement.dateTimeEnd|date('H:i d-m-Y') : '' }}</td>
                 <td>
                     <ul>
                         {% for groupe in entrainement.groupes %}
