@@ -59,8 +59,8 @@ class ZAdminFixtures extends Fixture
         $admin2->setLastName($faker->lastName);
         $admin2->setHandisport($faker->boolean);
         $admin2->setPhone($faker->phoneNumber);
-        $admin2->setRoles(array('ROLE_ADMIN'));
-        $admin2->setUsername('admin2');
+        $admin2->setRoles(array('ROLE_SUPER_ADMIN'));
+        $admin2->setUsername('super_admin');
         $admin2->setPassword($this->encoder->encodePassword($admin2, 'test'));
 
         $manager->persist($admin2);

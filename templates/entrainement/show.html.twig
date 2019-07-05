@@ -33,9 +33,9 @@
     </table>
 
     <a class="btn btn-primary" href="{{ path('app_entrainement_index') }}">Tous les entrainements</a>
-    <a class="btn btn-primary" href="{{ path('app_entrainement_mesentrainements') }}">Mes entrainements</a>
+    <a class="btn btn-primary" href="{{ path('app_entrainement_mesentrainements') }}">Mes entrainements finis</a>
 
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
 
         <a class="btn btn-info"
            href="{{ path('app_entrainement_edit', {'id': entrainement.id}) }}">Modifier</a>

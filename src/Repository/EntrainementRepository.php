@@ -83,4 +83,14 @@ class EntrainementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findDone() {
+        $date = new \DateTime();
+        return $this->createQueryBuilder('entrainement')
+            ->andWhere('entrainement.dateTimeEnd < :date')
+            ->setParameter('date', $date)
+            ->orderBy('entrainement.dateTimeStart', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

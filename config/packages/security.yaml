@@ -33,11 +33,11 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/entrainement/today, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, allow_if: "not has_role('ROLE_USER')" }
-        - { path: ^/groupe, roles: ROLE_ADMIN }
+        - { path: ^/groupe, roles: ROLE_SUPER_ADMIN }
         - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_TIREUR:  ROLE_USER
         ROLE_MAITRE:  ROLE_USER
         ROLE_ADMIN:  ROLE_USER
-        ROLE_SUPER_ADMIN:  ROLE_SUPER_ADMIN, ROLE_USER
+        ROLE_SUPER_ADMIN:  ROLE_SUPER_ADMIN, ROLE_ADMIN, ROLE_USER

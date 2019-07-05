@@ -33,7 +33,7 @@ class LeconController extends AbstractController
             $lecons = $leconRepository->findBy(
                 ['tireur' => $this->getUser()]
             );
-        } else if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+        } else if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN') {
             $lecons = $leconRepository->findBy(
                 ['present' => true]
             );

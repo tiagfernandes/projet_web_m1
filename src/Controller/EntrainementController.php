@@ -36,8 +36,8 @@ class EntrainementController extends AbstractController
      */
     public function mesEntrainements(EntrainementRepository $repository) {
 
-        if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
-            $entrainements = $repository->findAll();
+        if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN') {
+            $entrainements = $repository->findDone();
         } else {
             $entrainements = $repository->findMine($this->getUser());
         }

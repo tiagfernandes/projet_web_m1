@@ -4,7 +4,7 @@
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
         <div class="sidebar-brand">
-            <a href="{{ path('app_default_index') }}">Escrime</a>
+            <a href="{{ path('app_default_index') }}">CEMVS</a>
             <div id="close-sidebar">
                 <i class="fas fa-times"></i>
             </div>
@@ -63,19 +63,7 @@
                 <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="fas fa-running"></i>
-                        <span>Entraînement</span>
-                        {#<span class="badge badge-pill badge-danger">3</span>#}
-                    </a>
-                    <a href="{{ path('app_entrainement_mesentrainements') }}">
-
-                        <i class="fa fa-shopping-cart"></i>
-                        <span>Mes Entraînements</span>
-                        {#<span class="badge badge-pill badge-danger">3</span>#}
-                    </a>
-                    <a href="{{ path('app_lecon_index') }}">
-
-                        <i class="fa fa-shopping-cart"></i>
-                        <span>Mes leçons</span>
+                        <span>Entraînements</span>
                         {#<span class="badge badge-pill badge-danger">3</span>#}
                     </a>
                     <div class="sidebar-submenu">
@@ -84,7 +72,13 @@
                                 <a href="{{ path('app_entrainement_today') }}">Entraînements du jour</a>
                             </li>
                             <li>
+                                <a href="{{ path('app_entrainement_mesentrainements') }}">Mes Entraînements finis</a>
+                            </li>
+                            <li>
                                 <a href="{{ path('app_entrainement_index') }}">Tous les entraînements</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_lecon_index') }}">Mes leçons</a>
                             </li>
                         </ul>
                     </div>

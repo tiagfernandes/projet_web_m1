@@ -24,7 +24,8 @@
                 <td>
                     {% if tireur.isPresentByEntrainement(idEntrainement) %}
                         <a class="btn btn-danger"
-                           href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 0}) }}">Non Présent</a>
+                           href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 0}) }}">Non
+                            Présent</a>
                     {% else %}
                         <a class="btn btn-success"
                            href="{{ path('app_entrainement_setpresentbyentrainement', {'tireur': tireur.id, 'entrainement': idEntrainement, 'presence': 1}) }}">Présent</a>
@@ -41,7 +42,8 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('app_entrainement_today') }}">Retour à la liste des entraînements du jour</a>
+    <a class="btn btn-primary" href="{{ path('app_entrainement_today') }}">Retour à la liste des entraînements du
+        jour</a>
 
 
 {% endblock %}
