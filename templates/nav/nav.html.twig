@@ -199,7 +199,22 @@
                         </div>
                     </li>
                 {% endif %}
-
+                {% if is_granted('ROLE_TIREUR') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="far fa-chart-bar"></i>
+                            <span>Statistiques</span>
+                            {#<span class="badge badge-pill badge-danger">3</span>#}
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <a href="{{ path('app_statistic_index') }}">Consulter les statistiques</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         <!-- sidebar-menu  -->
