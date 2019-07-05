@@ -16,12 +16,8 @@ class CivFixtures extends Fixture
         $Civ2 = new Civ();
         $Civ2->setName('Femme');
 
-        $Civ3 = new Civ();
-        $Civ3->setName('Non Binaire');
-
         $manager->persist($Civ1);
         $manager->persist($Civ2);
-        $manager->persist($Civ3);
 
         $manager->flush();
     }

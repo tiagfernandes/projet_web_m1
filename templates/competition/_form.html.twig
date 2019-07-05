@@ -2,28 +2,30 @@
     {{ form_row(form.dateTimeStart) }}
     {{ form_row(form.dateTimeEnd) }}
 
+<hr>
 
 <div id="type-competitions-fields-list"
      data-prototype="{{ form_widget(form.competitions.vars.prototype)|e }}"
-     data-widget-tags="{{ '<div class="card-body"></div>'|e }}"
+     data-widget-tags="{{ '<div class="card-body"><hr></div>'|e }}"
      data-widget-counter="{{ form.children|length }}">
     {% for competition in form.competitions %}
-        <div class="card">
-            <div class="card-body">
-                {{ form_errors(competition) }}
-                {{ form_widget(competition) }}
-            </div>
+        <div class="card-body">
+            {{ form_errors(competition) }}
+            {{ form_widget(competition) }}
+            <hr>
         </div>
     {% endfor %}
 </div>
 
 
 <button type="button"
-        class="add-another-collection-widget"
-        data-list-selector="#type-competitions-fields-list">Add another type-competitions
+        class="add-another-collection-widget btn btn-info"
+        data-list-selector="#type-competitions-fields-list">Ajouter une compétition pour la même date
 </button>
-
-<button class="btn">{{ button_label|default('Save') }}</button>
+<br/>
+<br/>
+<br/>
+<button class="btn btn-outline-primary btn-block">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
 
 <script>
@@ -45,7 +47,7 @@
             list.data('widget-counter', counter);
 
             // create a new list element and add it to the list
-            var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+            var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget).append('<hr>');
             newElem.appendTo(list);
         });
     });

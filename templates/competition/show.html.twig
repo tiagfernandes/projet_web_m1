@@ -8,17 +8,17 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>DateTimeStart</th>
+            <th>Date début</th>
             <td>{{ competition.dateTimeStart ? competition.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
         </tr>
         <tr>
-            <th>DateTimeEnd</th>
+            <th>Date fin</th>
             <td>{{ competition.dateTimeEnd ? competition.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
         </tr>
         </tbody>
     </table>
     <br/>
-    <h3>Type competition</h3>
+    <h3>Type de competition</h3>
     <table class="table table-striped table-bordered">
         <tbody>
         {% for competition in competition.competitions %}

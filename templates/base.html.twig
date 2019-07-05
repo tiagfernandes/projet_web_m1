@@ -22,7 +22,7 @@
     {% endblock %}
 </head>
 <body>
-<div class="page-wrapper chiller-theme toggled">
+<div id="page" class="page-wrapper chiller-theme toggled">
     {% if app.user %}
         {% include 'nav/nav.html.twig' %}
     {% endif %}
@@ -83,6 +83,13 @@
             $("#show-sidebar").click(function () {
                 $(".page-wrapper").addClass("toggled");
             });
+
+            if ($(window).width() < 960) {
+                $('#page').removeClass('toggled');
+            }
+            else {
+                $('#page').addClass('toggled');
+            }
         });
     </script>
 {% endblock %}
