@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Form\ProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -17,6 +18,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/edit")
      * @param Request $request
+     * @return Response
      */
     public function edit(Request $request)
     {

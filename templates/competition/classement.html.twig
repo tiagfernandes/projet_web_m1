@@ -1,10 +1,44 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Saisie du classement{% endblock %}
+
 {% block body %}
+    <h1>{{ block('title') }}</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button class="btn btn-block btn-outline-primary">Enregistrer</button>
+    {{ form_end(form) }}
+
+    {% if form.classement.vars.value %}
+        <div class="mt-5">
+            <p>Performance : <span id="perf"></span></p>
+            <p>Place : <span id="place"></span></p>
+        </div>
+    {% endif %}
 
 {% endblock %}
 
-{% block title %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        {% if form.classement.vars.value %}
+        $(document).ready(function () {
+            $.ajax({
+                url: '{{ path('app_competition_perfcompetition', {'id': inscription.competition.id}) }}',
+                type: 'GET',
+                success: function (data) {
+                    let perf = parseFloat(data.perf);
+                    if (isNaN(perf)) {
+                        perf = 0;
+                    }
+                    document.getElementById('perf').innerHTML = perf;
+                    document.getElementById('place').innerHTML = data.place + ' / ' + data.nbTireur;
+                },
+
+            });
+        });
+        {% endif %}
+    </script>
 
 {% endblock %}
-

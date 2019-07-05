@@ -12,9 +12,11 @@ use App\Repository\TireurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/entrainement")
@@ -23,6 +25,8 @@ class EntrainementController extends AbstractController
 {
     /**
      * @Route("/", methods={"GET"})
+     * @param EntrainementRepository $entrainementRepository
+     * @return Response
      */
     public function index(EntrainementRepository $entrainementRepository): Response
     {
@@ -32,9 +36,36 @@ class EntrainementController extends AbstractController
     }
 
     /**
-     * @Route("/done")
+     * @Route("/assiduite")
+     * @param EntrainementRepository $repository
+     * @return Response
      */
-    public function mesEntrainements(EntrainementRepository $repository) {
+    public function assiduite(EntrainementRepository $repository)
+    {
+        $entrainementsWhereIsPresent = $repository->findMine($this->getUser());
+        $nbCour = 0;//TODO count list entrainement
+
+
+        $array = array(
+            'presence' => $entrainementsWhereIsPresent,
+            'nbCours' => $nbCour,
+            'assiduite' => $entrainementsWhereIsPresent / $nbCour
+        );
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+
+    /**
+     * @Route("/done")
+     * @param EntrainementRepository $repository
+     * @return Response
+     */
+    public function mesEntrainements(EntrainementRepository $repository)
+    {
 
         if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
             $entrainements = $repository->findAll();
@@ -50,6 +81,8 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/today", methods={"GET"})
+     * @param EntrainementRepository $entrainementRepository
+     * @return Response
      */
     public function today(EntrainementRepository $entrainementRepository): Response
     {
@@ -60,6 +93,8 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -97,6 +132,8 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/new-year", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function newYear(Request $request): Response
     {
@@ -161,6 +198,8 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/{id}", methods={"GET"})
+     * @param Entrainement $entrainement
+     * @return Response
      */
     public function show(Entrainement $entrainement): Response
     {
@@ -171,12 +210,13 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/today/{id}/presence", methods={"GET"})
+     * @param Entrainement $entrainement
+     * @return Response
      */
     public function showMembers(Entrainement $entrainement): Response
     {
-        $tireurs= new ArrayCollection();
-        foreach ($entrainement->getGroupes() as $groupe)
-        {
+        $tireurs = new ArrayCollection();
+        foreach ($entrainement->getGroupes() as $groupe) {
             foreach ($groupe->getTireurs() as $tireur) {
                 $tireurs[] = $tireur;
             }
@@ -189,12 +229,18 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/today/{tireur}/{entrainement}/{presence}/present")
+     * @param Tireur $tireur
+     * @param Entrainement $entrainement
+     * @param $presence
+     * @return RedirectResponse
+     * @throws \Exception
      */
-    public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence) {
+    public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence)
+    {
 
         $today = new \DateTime();
 
-        if($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd() || $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
+        if ($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd() || $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
 
             foreach ($tireur->getEntrainementTireurs() as $entrainementTireur) {
                 if ($entrainementTireur->getEntrainement() === $entrainement) {
@@ -216,6 +262,9 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/{id}/edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Entrainement $entrainement
+     * @return Response
      */
     public function edit(Request $request, Entrainement $entrainement): Response
     {
@@ -238,6 +287,9 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/{id}/delete", requirements={"id": "\d+"})
+     * @param Request $request
+     * @param Entrainement $entrainement
+     * @return RedirectResponse|AccessDeniedException
      */
     public function delete(Request $request, Entrainement $entrainement)
     {

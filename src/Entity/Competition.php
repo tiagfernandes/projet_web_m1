@@ -42,9 +42,9 @@ class Competition
     private $handisport;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="competition", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="competition", orphanRemoval=true, cascade={"persist", "remove"})
      */
-    private $inscription;
+    private $inscriptions;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourCompetition", inversedBy="competitions")
@@ -62,8 +62,7 @@ class Competition
     public function __construct()
     {
         $this->civ = new ArrayCollection();
-        $this->tireurCompetitions = new ArrayCollection();
-        $this->inscription = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,37 +132,6 @@ class Competition
         return $this;
     }
 
-    /**
-     * @return Collection|Inscription[]
-     */
-    public function getInscription(): Collection
-    {
-        return $this->inscription;
-    }
-
-    public function addTireur(Inscription $tireur): self
-    {
-        if (!$this->inscription->contains($tireur)) {
-            $this->inscription[] = $tireur;
-            $tireur->setCompetition($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTireur(Inscription $tireur): self
-    {
-        if ($this->inscription->contains($tireur)) {
-            $this->inscription->removeElement($tireur);
-            // set the owning side to null (unless already changed)
-            if ($tireur->getCompetition() === $this) {
-                $tireur->setCompetition(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getJourCompetition(): ?JourCompetition
     {
         return $this->jourCompetition;
@@ -211,5 +179,32 @@ class Competition
         }
 
         return $genres;
+    }
+
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->civ->contains($inscription)) {
+            $this->civ[] = $inscription;
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->civ->contains($inscription)) {
+            $this->civ->removeElement($inscription);
+        }
+
+        return $this;
     }
 }

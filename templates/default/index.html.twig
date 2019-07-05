@@ -1,5 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Coucou</h1>
+    <h1>Bienvenue</h1>
+    {% if is_granted('ROLE_TIREUR') %}
+        <div>
+            <p>Engagement : <span id="engagement"></span></p>
+            <p>Assiduité  : <span id="assiduite"></span></p>
+            <p>Perf globale  : <span id="perfGlobale"></span></p>
+            <p>Potentiel   : <span id="potentiel"></span></p>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        {% if is_granted('ROLE_TIREUR') %}
+        $(document).ready(function () {
+            $.ajax({
+                url: '{{ path('app_competition_engagement') }}',
+                type: 'GET',
+                success: function (data) {
+                    document.getElementById('engagement').innerHTML = data.engagement;
+                },
+            });
+
+            $.ajax({
+                url: '{{ path('app_entrainement_assiduite') }}',
+                type: 'GET',
+                success: function (data) {
+                    document.getElementById('assiduite').innerHTML = data.assiduite;
+                },
+            });
+        });
+        {% endif %}
+    </script>
+
 {% endblock %}

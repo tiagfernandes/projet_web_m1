@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\JourCompetition;
 use App\Entity\Inscription;
 use App\Entity\Competition;
+use App\Form\ClassementCompetitionType;
 use App\Form\JourCompetitionType;
 use App\Repository\JourCompetitionRepository;
 use App\Repository\InscriptionRepository;
@@ -16,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -59,17 +61,13 @@ class CompetitionController extends AbstractController
                 return $this->redirect($request->headers->get('referer'));
             }
 
-            $register = new Inscription();
-            $register->setTireur($this->getUser());
-            $register->setCompetition($competition);
+            $inscription = new Inscription();
+            $inscription->setTireur($this->getUser());
+            $inscription->setCompetition($competition);
 
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($register);
-            $competition->addTireur($register);
-            $this->getUser()->addTypeCompetition($register);
-
-            $em->persist($competition);
+            $em->persist($inscription);
             $em->flush();
 
             $this->addFlash('success', 'L\'inscription à la compétition a bien été prise en compte');
@@ -91,22 +89,47 @@ class CompetitionController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/engagement")
+     * @param InscriptionRepository $inscriptionRepository
+     * @param CompetitionRepository $competitionRepository
+     * @return Response
+     */
+    public function engagement(InscriptionRepository $inscriptionRepository, CompetitionRepository $competitionRepository)
+    {
+        $nbCompetitionsRealisees = count($inscriptionRepository->findWithClassementByUser($this->getUser()));
+        $nbCompetitionsCategorie = count($competitionRepository->findEnableByUser($this->getUser())->getResult());
+        $engagement = $nbCompetitionsRealisees / $nbCompetitionsCategorie;
+
+        $array = array(
+            'nbCompetitionsRealisees' => $nbCompetitionsRealisees,
+            'nbCompetitionsCategorie' => $nbCompetitionsCategorie,
+            'engagement' => $engagement
+        );
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
     /**
      * @Route("/registed")
-     * @param CompetitionRepository $inscriptionRepository
+     * @param InscriptionRepository $inscriptionRepository
      * @param PaginatorInterface $paginator
      * @param Request $request
      * @return Response
      */
-    public function registed(CompetitionRepository $inscriptionRepository, PaginatorInterface $paginator, Request $request)
+    public function registed(InscriptionRepository $inscriptionRepository, PaginatorInterface $paginator, Request $request)
     {
-        $competitions = $paginator->paginate(
+        $inscription = $paginator->paginate(
             $inscriptionRepository->findByUser($this->getUser()),
             $request->query->getInt('page', 1),
             10
         );
         return $this->render('competition/registed.html.twig', [
-            'pagination' => $competitions,
+            'pagination' => $inscription,
         ]);
     }
 
@@ -205,4 +228,54 @@ class CompetitionController extends AbstractController
 
         return $this->redirectToRoute('competition_index');
     }
+
+
+    /**
+     * @Route("/{id}/saisie-classement")
+     * @param Inscription $inscription
+     * @param Request $request
+     * @return Response
+     */
+    public function saisieClassement(Inscription $inscription, Request $request)
+    {
+        if (!$inscription)
+            throw new NotFoundHttpException();
+
+        $form = $this->createForm(ClassementCompetitionType::class, $inscription)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Votre classement a bien été saisie');
+
+            return $this->redirectToRoute('app_competition_registed', ['id' => $inscription->getCompetition()->getId()]);
+        }
+
+        return $this->render('competition/classement.html.twig', array(
+            'form' => $form->createView(),
+            'inscription' => $inscription
+        ));
+    }
+
+
+    /**
+     * @Route("/{id}/perf-competition")
+     * @param Competition $competition
+     * @param InscriptionRepository $inscriptionRepository
+     * @return Response
+     */
+    public function perfCompetition(Competition $competition, InscriptionRepository $inscriptionRepository)
+    {
+        $array = array(
+            'nbTireur' => count($competition->getInscriptions()),
+            'place' => $inscriptionRepository->findOneByComptetitonAndUser($competition, $this->getUser())->getClassement(),
+            'perf' => count($competition->getInscriptions()) / $inscriptionRepository->findOneByComptetitonAndUser($competition, $this->getUser())->getClassement()
+        );
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
 }
