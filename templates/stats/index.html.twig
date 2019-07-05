@@ -29,6 +29,7 @@
                 url: '{{ path('app_entrainement_assiduite') }}',
                 type: 'GET',
                 success: function (data) {
+                    console.log(data);
                     document.getElementById('assiduite').innerHTML = data.assiduite;
                 },
             });

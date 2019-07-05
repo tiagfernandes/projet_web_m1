@@ -50,19 +50,23 @@ class EntrainementController extends AbstractController
 
     /**
      * @Route("/assiduite")
-     * @param EntrainementRepository $repository
+     * @param EntrainementRepository $entrainementRepository
      * @return Response
      */
-    public function assiduite(EntrainementRepository $repository)
+    public function assiduite(EntrainementRepository $entrainementRepository)
     {
-        $entrainementsWhereIsPresent = $repository->findMine($this->getUser());
-        $nbCour = 0;//TODO count list entrainement
-
+        $entrainementsWhereIsPresent = count($entrainementRepository->findMineWherePresent($this->getUser()));
+        $nbCour = count($entrainementRepository->findMine($this->getUser()));
+        try {
+            $assiduite = $entrainementsWhereIsPresent / $nbCour;
+        } catch (\Exception $e) {
+            $assiduite = 0;
+        }
 
         $array = array(
             'presence' => $entrainementsWhereIsPresent,
             'nbCours' => $nbCour,
-            'assiduite' => $entrainementsWhereIsPresent / $nbCour
+            'assiduite' => $assiduite
         );
 
         $response = new Response(json_encode($array));
