@@ -19,8 +19,8 @@
         {% for objectif in objectifs %}
             <tr>
                 <td>{{ objectif.descriptif }}</td>
-                <td>{{ objectif.createdBy }}</td>
-                <td>{{ objectif.tireur }}</td>
+                <td>{{ objectif.createdBy.lastName }} {{ objectif.createdBy.firstName }}</td>
+                <td>{{ objectif.tireur.lastName }} {{ objectif.createdBy.firstName }}</td>
                 <td>{{ objectif.atteint ? 'Oui' : 'Non' }}</td>
                 <td>
                     <a class="text text-primary" href="{{ path('objectif_show', {'id': objectif.id}) }}"><i class="fas fa-eye"></i></a>
@@ -29,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">aucune informations</td>
             </tr>
         {% endfor %}
         </tbody>

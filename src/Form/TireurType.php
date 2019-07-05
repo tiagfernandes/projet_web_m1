@@ -18,7 +18,9 @@ class TireurType extends AbstractType
             ->add('civ')
             ->add('firstName')
             ->add('lastName')
-            ->add('dtBirthday', DateType::class)
+            ->add('dtBirthday', DateType::class,[
+                'years' => range(1950,2019)
+            ])
             ->add('email')
             ->add('phone')
             ->remove('createdAt')

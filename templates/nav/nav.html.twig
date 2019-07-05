@@ -101,6 +101,26 @@
                         </ul>
                     </div>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Maîtres d'armes</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+
+                                <li>
+                                    <a href="{{ path('maitre_armes_index') }}">Liste des maîtres d'armes</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('maitre_armes_new') }}">Ajouter un maître d'armes</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
                 <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="far fa-check-square"></i>
@@ -117,6 +137,27 @@
                         </ul>
                     </div>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Tireurs</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+
+                                <li>
+                                    <a href="{{ path('tireur_index') }}">Liste des tireurs</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('tireur_new') }}">Ajouter un tireur</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
         <!-- sidebar-menu  -->

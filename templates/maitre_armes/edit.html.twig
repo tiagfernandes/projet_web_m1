@@ -3,11 +3,11 @@
 {% block title %}Edit MaitreArmes{% endblock %}
 
 {% block body %}
-    <h1>Edit MaitreArmes</h1>
+    <h1>Modifier un Maitre d'Armes</h1>
 
     {{ include('maitre_armes/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('maitre_armes_index') }}">back to list</a>
+    <a href="{{ path('maitre_armes_index') }}">retour à la liste</a>
 
     {{ include('maitre_armes/_delete_form.html.twig') }}
 {% endblock %}

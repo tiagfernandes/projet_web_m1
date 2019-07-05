@@ -18,10 +18,12 @@ class MaitreArmesType extends AbstractType
             ->add('civ')
             ->add('firstName')
             ->add('lastName')
-            ->add('dtBirthday', DateType::class)
+            ->add('dtBirthday', DateType::class,[
+                'years' => range(1950,2019)
+            ])
             ->add('email')
             ->add('phone')
-            ->add('createdAt', DateType::class)
+            ->remove('createdAt', DateType::class)
             ->add('username')
             ->add('rawPassword', RepeatedType::class, [
                 'type' => PasswordType::class,

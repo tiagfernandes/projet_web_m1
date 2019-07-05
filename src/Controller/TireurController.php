@@ -45,7 +45,6 @@ class TireurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tireur->setPassword($tireur->getRawPassword());
             $tireur->setPassword($this->encoder->encodePassword($tireur, $tireur->getPassword()));
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tireur);
             $entityManager->flush();
