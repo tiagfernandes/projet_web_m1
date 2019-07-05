@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Leçons{% endblock %}
+
+{% block body %}
+    <h1>Mes Leçons</h1>
+
+    <a href="{{ path('app_entrainement_mesentrainements') }}" class="btn btn-outline-primary mb-2">Mes Entraînements</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tireur</th>
+                <th>Maitre d'arme</th>
+                <th>Entraînement</th>
+                <th>Commentaires</th>
+                <th>Present</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lecon in lecons %}
+            <tr>
+                <td>{{ lecon.tireur.firstName }}</td>
+                <td>{{ lecon.maitreArmes.firstName }}</td>
+                <td>{{ lecon.entrainement.dateTimeStart|date('Y-m-d H:m') }} - {{ lecon.entrainement.dateTimeEnd|date('Y-m-d H:m') }}</td>
+                <td>{{ lecon.commentaires|length }}</td>
+                <td>{{ lecon.present ? 'Oui' : 'Non' }}</td>
+                <td>
+                    <a href="{{ path('app_lecon_edit', {'id': lecon.id}) }}"><i
+                                class="far fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Vous n'avez pas encore de leçons</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

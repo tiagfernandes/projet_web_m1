@@ -23,7 +23,7 @@
                   <span class="user-name">{{ app.user.firstName }}
                     <strong>{{ app.user.lastName }}</strong>
                   </span>
-                    <span class="user-role">{{ app.user.roles[0] }}</span>
+                    <span class="user-role">{% if app.user.groupe is defined %}{{ app.user.groupe.name }}{% else %}{{ app.user.roles[0] }}{% endif %}</span>
                     <span class="user-status">
                         <i class="fa fa-circle"></i>
                         <span>Online</span>
@@ -64,6 +64,18 @@
                     <a href="#">
                         <i class="fas fa-running"></i>
                         <span>Entraînement</span>
+                        {#<span class="badge badge-pill badge-danger">3</span>#}
+                    </a>
+                    <a href="{{ path('app_entrainement_mesentrainements') }}">
+
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Mes Entraînements</span>
+                        {#<span class="badge badge-pill badge-danger">3</span>#}
+                    </a>
+                    <a href="{{ path('app_lecon_index') }}">
+
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Mes leçons</span>
                         {#<span class="badge badge-pill badge-danger">3</span>#}
                     </a>
                     <div class="sidebar-submenu">

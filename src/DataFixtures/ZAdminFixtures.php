@@ -27,13 +27,24 @@ class ZAdminFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $admin = new Admin();
+
         $admin->setCiv($manager->getRepository(Civ::class)->findOneBy(array('name' => 'Homme')));
+
         $admin->setDtBirthday($faker->dateTimeBetween($startDate = '-30 years', $endDate = '-10 years', $timezone = null));
         $admin->setEmail($faker->email);
         $admin->setFirstName($faker->firstNameMale);
         $admin->setLastName($faker->lastName);
         $admin->setHandisport($faker->boolean);
         $admin->setPhone($faker->phoneNumber);
+
+        $admin->setUsername('admin');
+        $admin->setPassword($this->encoder->encodePassword($admin, 'test'));
+        $admin->setCreatedAt(new \DateTime());
+
+        $manager->persist($admin);
+
+        $manager->flush();
+
         $admin->setRoles(array('ROLE_ADMIN'));
         $admin->setUsername('admin1');
         $admin->setPassword($this->encoder->encodePassword($admin, 'test'));
@@ -61,4 +72,5 @@ class ZAdminFixtures extends Fixture
     {
         return 8;
     }
+
 }
