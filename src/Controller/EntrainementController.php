@@ -27,11 +27,17 @@ class EntrainementController extends AbstractController
      */
     public function index(EntrainementRepository $entrainementRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $entrainements = $paginator->paginate(
-        $entrainementRepository->findAllByDate(),
-        $request->query->getInt('page', 1),
-        10
-    );
+        if ($this->getUser()->getRoles()[0] === "ROLE_TIREUR") {
+            $entrainements = $paginator->paginate(
+                $entrainementRepository->findMine($this->getUser()),
+                $request->query->getInt('page', 1),
+                10);
+        } else {
+            $entrainements = $paginator->paginate(
+                $entrainementRepository->findAllByDate(),
+                $request->query->getInt('page', 1),
+                10);
+        }
 
         return $this->render('entrainement/index.html.twig', [
             'entrainements' => $entrainements
@@ -41,7 +47,8 @@ class EntrainementController extends AbstractController
     /**
      * @Route("/done")
      */
-    public function mesEntrainements(EntrainementRepository $repository, PaginatorInterface $paginator, Request $request) {
+    public function mesEntrainements(EntrainementRepository $repository, PaginatorInterface $paginator, Request $request)
+    {
 
 
         if ($this->getUser()->getRoles()[0] === 'ROLE_SUPER_ADMIN' || $this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
@@ -53,7 +60,7 @@ class EntrainementController extends AbstractController
 
         } else {
             $entrainements = $paginator->paginate(
-                $repository->findMine($this->getUser()),
+                $repository->findMineWherePresent($this->getUser()),
                 $request->query->getInt('page', 1),
                 10
             );
@@ -195,9 +202,8 @@ class EntrainementController extends AbstractController
      */
     public function showMembers(Entrainement $entrainement): Response
     {
-        $tireurs= new ArrayCollection();
-        foreach ($entrainement->getGroupes() as $groupe)
-        {
+        $tireurs = new ArrayCollection();
+        foreach ($entrainement->getGroupes() as $groupe) {
             foreach ($groupe->getTireurs() as $tireur) {
                 $tireurs[] = $tireur;
             }
@@ -211,11 +217,12 @@ class EntrainementController extends AbstractController
     /**
      * @Route("/today/{tireur}/{entrainement}/{presence}/present")
      */
-    public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence) {
+    public function setPresentByEntrainement(Tireur $tireur, Entrainement $entrainement, $presence)
+    {
 
         $today = new \DateTime();
 
-        if($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd() || $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
+        if ($today >= $entrainement->getDateTimeStart() && $today <= $entrainement->getDateTimeEnd() || $this->getUser()->getRoles()[0] == 'ROLE_MAITRE') {
 
             foreach ($tireur->getEntrainementTireurs() as $entrainementTireur) {
                 if ($entrainementTireur->getEntrainement() === $entrainement) {
