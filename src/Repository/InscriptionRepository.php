@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Competition;
 use App\Entity\Inscription;
 use App\Entity\Tireur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -26,8 +27,29 @@ class InscriptionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->andWhere('i.tireur = :user')
             ->setParameter('user', $user)
+            ->getQuery();
+    }
+
+    public function findOneByComptetitonAndUser(Competition $competition, $user)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.tireur = :user')
+            ->setParameter('user', $user)
+            ->andWhere('i.competition = :competition')
+            ->setParameter('competition', $competition)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
+    }
+
+    public function findWithClassementByUser($user)
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->andWhere('i.tireur = :user')
+            ->setParameter('user', $user);
+        $qb
+            ->andWhere($qb->expr()->isNotNull('i.classement'));
+
+        return $qb->getQuery()->getResult();
     }
 
     // /**

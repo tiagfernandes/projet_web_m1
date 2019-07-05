@@ -30,9 +30,6 @@ class CompetitionRepository extends ServiceEntityRepository
             ->setParameter('civ', $user->getCiv())
             ->andWhere('c.arme = :arme')
             ->setParameter('arme', $user->getArme())
-//            ->leftJoin('c.inscription', 'inscription')
-//            ->andWhere('inscription.tireur <> :user')
-//            ->setParameter('user', $user)
         ;
 
         return $qb->getQuery();
@@ -62,8 +59,8 @@ class CompetitionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c = :competition')
             ->setParameter('competition', $competition)
-            ->join('c.inscription', 'inscription')
-            ->andWhere('inscription.tireur = :user')
+            ->join('c.inscriptions', 'i')
+            ->andWhere('i.tireur = :user')
             ->setParameter('user', $user)
             ->getQuery()
             ->getOneOrNullResult();

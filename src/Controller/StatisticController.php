@@ -12,14 +12,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+class StatisticController extends AbstractController
 {
-
     /**
      * @Route("/")
      */
-    public function index() {
-        return $this->redirectToRoute('app_entrainement_today');
+    public function index()
+    {
+        return $this->render('stats/index.html.twig');
     }
-
 }

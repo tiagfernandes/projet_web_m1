@@ -28,8 +28,7 @@ class Inscription
     private $tireur;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Competition", inversedBy="tireurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Competition", inversedBy="inscriptions")
      */
     private $competition;
 
