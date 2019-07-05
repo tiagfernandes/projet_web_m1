@@ -35,7 +35,7 @@ class CompetitionRepository extends ServiceEntityRepository
 //            ->setParameter('user', $user)
         ;
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery();
     }
 
     public function findByUser(Tireur $user)
@@ -44,8 +44,7 @@ class CompetitionRepository extends ServiceEntityRepository
             ->join('c.inscription', 'inscription')
             ->andWhere('inscription.tireur = :user')
             ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 
 

@@ -12,6 +12,7 @@ use App\Repository\CompetitionRepository;
 use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class CompetitionController extends AbstractController
 {
     /**
      * @Route("/", name="competition_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param JourCompetitionRepository $jourCompetitionRepository
      * @param PaginatorInterface $paginator
      * @param Request $request
@@ -45,14 +47,16 @@ class CompetitionController extends AbstractController
      * @Route("/registration/{id}", defaults={"id"=0})
      * @param CompetitionRepository $competitionRepository
      * @param Competition $competition
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
-    public function registration(CompetitionRepository $competitionRepository, Competition $competition = null)
+    public function registration(CompetitionRepository $competitionRepository, Competition $competition = null, PaginatorInterface $paginator, Request $request)
     {
         if ($competition) {
             if ($competitionRepository->competitionHasUser($competition, $this->getUser())) {
-                $this->addFlash('danger', 'Déjà inscrit pour cette compétition !');
-                return $this->redirectToRoute('app_competition_registration');
+                $this->addFlash('danger', '⚠⚠⚠ Déjà inscrit pour cette compétition ! ⚠⚠⚠');
+                return $this->redirect($request->headers->get('referer'));
             }
 
             $register = new Inscription();
@@ -68,7 +72,7 @@ class CompetitionController extends AbstractController
             $em->persist($competition);
             $em->flush();
 
-            $this->addFlash('success', 'L\'inscription à la compétition à bien été prise en compte');
+            $this->addFlash('success', 'L\'inscription à la compétition a bien été prise en compte');
 
             if ($competition->getBlason() != $this->getUser()->getBlason()) {
                 $this->addFlash('warning', 'Attention le ' . $competition->getBlason()->getGrade() . ' est requis !');
@@ -77,29 +81,38 @@ class CompetitionController extends AbstractController
             return $this->redirectToRoute('app_competition_registed');
         }
 
-        $competitionsEnable = $competitionRepository->findEnableByUser($this->getUser());
-
+        $competitionsEnable = $paginator->paginate(
+            $competitionRepository->findEnableByUser($this->getUser()),
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('competition/registration.html.twig', [
-            'competitions' => $competitionsEnable,
+            'pagination' => $competitionsEnable,
         ]);
     }
 
     /**
      * @Route("/registed")
      * @param CompetitionRepository $inscriptionRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
-    public function registed(CompetitionRepository $inscriptionRepository)
+    public function registed(CompetitionRepository $inscriptionRepository, PaginatorInterface $paginator, Request $request)
     {
-        $competitions = $inscriptionRepository->findByUser($this->getUser());
-
+        $competitions = $paginator->paginate(
+            $inscriptionRepository->findByUser($this->getUser()),
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('competition/registed.html.twig', [
-            'competitions' => $competitions,
+            'pagination' => $competitions,
         ]);
     }
 
     /**
      * @Route("/new", name="competition_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @return Response
      */
@@ -120,6 +133,9 @@ class CompetitionController extends AbstractController
 
             $entityManager->flush();
 
+            $this->addFlash('success', 'La compétition a bien été ajoutée ✅');
+
+
             return $this->redirectToRoute('competition_index');
         }
 
@@ -131,6 +147,7 @@ class CompetitionController extends AbstractController
 
     /**
      * @Route("/{id}", name="competition_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param JourCompetition $competition
      * @return Response
      */
@@ -143,6 +160,7 @@ class CompetitionController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="competition_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param JourCompetition $competition
      * @return Response
@@ -154,6 +172,8 @@ class CompetitionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'La compétition a bien été modifiée');
 
             return $this->redirectToRoute('competition_index', [
                 'id' => $competition->getId(),
@@ -168,6 +188,7 @@ class CompetitionController extends AbstractController
 
     /**
      * @Route("/{id}", name="competition_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param JourCompetition $competition
      * @return Response
@@ -178,6 +199,8 @@ class CompetitionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($competition);
             $entityManager->flush();
+
+            $this->addFlash('success', 'La compétition a bien été supprimée');
         }
 
         return $this->redirectToRoute('competition_index');

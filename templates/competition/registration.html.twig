@@ -1,40 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Competition registration{% endblock %}
+{% block title %}Compétitions disponibles{% endblock %}
 
 {% block body %}
     <h1>{{ block('title') }}</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>DateTimeStart</th>
-            <th>DateTimeEnd</th>
-            <th>Blason</th>
-            <th>Arme</th>
-            <th>Civ</th>
-            <th>Categorie</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for competition in competitions %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>{{ competition.jourCompetition.dateTimeStart ? competition.jourCompetition.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ competition.jourCompetition.dateTimeEnd ? competition.jourCompetition.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ competition.blason.grade }}</td>
-                <td>{{ competition.arme.name }}</td>
-                <td>{{ competition.getCiv|join(', ') }}</td>
-                <td>{{ competition.categorie.name }}</td>
-                <td><a href="{{ path('app_competition_registration', {'id': competition.id}) }}">S'inscrire</a></td>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Blason</th>
+                <th>Arme</th>
+                <th>Civilité</th>
+                <th>Catégorie</th>
+                <th>Action</th>
             </tr>
-        {% else %}
-            <tr>
-                <td>
-                    no records found
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for competition in pagination %}
+                <tr>
+                    <td>{{ competition.jourCompetition.dateTimeStart ? competition.jourCompetition.dateTimeStart|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ competition.jourCompetition.dateTimeEnd ? competition.jourCompetition.dateTimeEnd|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ competition.blason.grade }}</td>
+                    <td>{{ competition.arme.name }}</td>
+                    <td>{{ competition.getCiv|join(', ') }}</td>
+                    <td>{{ competition.categorie.name }}</td>
+                    <td><a href="{{ path('app_competition_registration', {'id': competition.id}) }}">S'inscrire</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>
+                        Aucun résultats
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+
 {% endblock %}
