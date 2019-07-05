@@ -82,8 +82,7 @@ class Arbitre
 
     public function __toString()
     {
-        $this->id = $id;
-        return $this;
+        return (string) $this->getId();
     }
 
 }

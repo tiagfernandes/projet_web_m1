@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tireur index{% endblock %}
+
+{% block body %}
+    <h1>Tireur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Username</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tireur in tireurs %}
+            <tr>
+                <td>{{ tireur.firstName }}</td>
+                <td>{{ tireur.lastName }}</td>
+                <td>{{ tireur.email }}</td>
+                <td>{{ tireur.phone }}</td>
+                <td>{{ tireur.username }}</td>
+                <td>
+                    <a href="{{ path('tireur_show', {'id': tireur.id}) }}">show</a>
+                    <a href="{{ path('tireur_edit', {'id': tireur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tireur_new') }}">Create new</a>
+{% endblock %}
